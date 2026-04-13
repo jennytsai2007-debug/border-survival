@@ -1,565 +1,490 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="zh-Hant">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2487.7">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #3875c1; -webkit-text-stroke: #3875c1; background-color: #ffffff; background-color: rgba(255, 255, 255, 0)}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #b36a52; -webkit-text-stroke: #b36a52; background-color: #ffffff; background-color: rgba(255, 255, 255, 0)}
-    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #7cc9fe; -webkit-text-stroke: #7cc9fe; background-color: #ffffff; background-color: rgba(255, 255, 255, 0)}
-    p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #bfbfbe; -webkit-text-stroke: #bfbfbe; background-color: #ffffff; background-color: rgba(255, 255, 255, 0)}
-    p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #61b670; -webkit-text-stroke: #61b670; background-color: #ffffff; background-color: rgba(255, 255, 255, 0)}
-    p.p6 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #bfbfbe; -webkit-text-stroke: #bfbfbe; background-color: #ffffff; background-color: rgba(255, 255, 255, 0); min-height: 16.0px}
-    p.p7 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #5a6065; -webkit-text-stroke: #5a6065; background-color: #ffffff; background-color: rgba(255, 255, 255, 0)}
-    p.p8 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #97bb86; -webkit-text-stroke: #97bb86; background-color: #ffffff; background-color: rgba(255, 255, 255, 0)}
-    span.s1 {font-kerning: none}
-    span.s2 {font-kerning: none; color: #7cc9fe; -webkit-text-stroke: 0px #7cc9fe}
-    span.s3 {font-kerning: none; color: #5a5a5a; -webkit-text-stroke: 0px #5a5a5a}
-    span.s4 {font-kerning: none; color: #3875c1; -webkit-text-stroke: 0px #3875c1}
-    span.s5 {font-kerning: none; color: #bfbfbe; -webkit-text-stroke: 0px #bfbfbe}
-    span.s6 {font-kerning: none; color: #b36a52; -webkit-text-stroke: 0px #b36a52}
-    span.s7 {font: 14.0px 'PingFang TC'; font-kerning: none}
-    span.s8 {font-kerning: none; color: #a752f5; -webkit-text-stroke: 0px #a752f5}
-    span.s9 {font-kerning: none; color: #cacaca; -webkit-text-stroke: 0px #cacaca}
-    span.s10 {font-kerning: none; color: #97bb86; -webkit-text-stroke: 0px #97bb86}
-    span.s11 {font-kerning: none; color: #61b670; -webkit-text-stroke: 0px #61b670}
-    span.s12 {font: 14.0px 'PingFang TC'; font-kerning: none; color: #bfbfbe; -webkit-text-stroke: 0px #bfbfbe}
-    span.s13 {font-kerning: none; color: #30b68f; -webkit-text-stroke: 0px #30b68f}
-    span.s14 {font-kerning: none; color: #f16625; -webkit-text-stroke: 0px #f16625}
-    span.s15 {font: 14.0px 'PingFang TC'; font-kerning: none; color: #61b670; -webkit-text-stroke: 0px #61b670}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>邊境生存戰 - 完整雲端版</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+
+        :root {
+            --neon-pink: #ff00ff;
+            --neon-blue: #00f2ff;
+            --cyber-yellow: #fcee0a;
+            --dark-bg: #050505;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            background-color: var(--dark-bg);
+            font-family: 'Orbitron', 'Microsoft JhengHei', sans-serif;
+            color: white;
+            touch-action: none;
+        }
+
+        .scanline-overlay {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+            z-index: 1000;
+            animation: flicker 0.15s infinite;
+        }
+
+        @keyframes flicker {
+            0% { opacity: 0.15; }
+            10% { opacity: 0.1; }
+            100% { opacity: 0.15; }
+        }
+
+        .login-card {
+            background: rgba(10, 10, 15, 0.9);
+            backdrop-filter: blur(15px);
+            border: 2px solid var(--neon-blue);
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
+            clip-path: polygon(0 0, 100% 0, 100% 95%, 95% 100%, 0 100%);
+            padding: 2rem;
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .btn-neon {
+            border: 1px solid var(--neon-pink);
+            color: var(--neon-pink);
+            transition: all 0.3s;
+            text-transform: uppercase;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-neon:hover:not(:disabled) {
+            background: var(--neon-pink);
+            color: #000;
+            box-shadow: 0 0 20px var(--neon-pink);
+        }
+
+        .enemy-info {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 3px solid var(--cyber-yellow);
+            padding: 10px;
+            margin-top: 20px;
+            font-size: 12px;
+        }
+
+        #gameScreen { display: none; }
+        #gameCanvas { display: block; background-color: #020617; }
+        .hidden { display: none !important; }
+
+        .level-up {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--cyber-yellow);
+            font-size: 3rem;
+            font-weight: 900;
+            pointer-events: none;
+            opacity: 0;
+            z-index: 50;
+            text-shadow: 0 0 20px rgba(252, 238, 10, 0.5);
+        }
+    </style>
 </head>
 <body>
-<p class="p1"><span class="s1">&lt;!DOCTYPE</span><span class="s2"> html</span><span class="s1">&gt;</span></p>
-<p class="p2"><span class="s3">&lt;</span><span class="s4">html</span><span class="s5"> </span><span class="s2">lang</span><span class="s3">=</span><span class="s1">"zh-Hant"</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s3">&lt;</span><span class="s1">head</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s4">meta</span><span class="s5"> </span><span class="s1">charset</span><span class="s3">=</span><span class="s6">"UTF-8"</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s4">meta</span><span class="s5"> </span><span class="s2">name</span><span class="s3">=</span><span class="s1">"viewport"</span><span class="s5"> </span><span class="s2">content</span><span class="s3">=</span><span class="s1">"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s4">title</span><span class="s3">&gt;</span><span class="s7">邊境生存戰</span><span class="s1"> - </span><span class="s7">雲端正式版</span><span class="s3">&lt;/</span><span class="s4">title</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s4">script</span><span class="s5"> </span><span class="s2">src</span><span class="s3">=</span><span class="s1">"https://cdn.tailwindcss.com"</span><span class="s3">&gt;&lt;/</span><span class="s4">script</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s1">style</span><span class="s3">&gt;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s8">@import</span><span class="s5"> </span><span class="s6">url</span><span class="s9">(</span><span class="s1">'https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&amp;display=swap'</span><span class="s9">);</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s4">:root</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">--neon-pink:</span><span class="s1"> #ff00ff</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">--neon-blue:</span><span class="s1"> #00f2ff</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">--cyber-yellow:</span><span class="s1"> #fcee0a</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">--dark-bg:</span><span class="s1"> #050505</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s9">}</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s4">body</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">margin:</span><span class="s1"> </span><span class="s10">0</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">padding:</span><span class="s1"> </span><span class="s10">0</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">overflow-x:</span><span class="s1"> </span><span class="s6">hidden</span><span class="s9">;</span></p>
-<p class="p3"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s1">background-color:</span><span class="s5"> </span><span class="s6">var(--dark-bg)</span><span class="s9">;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s2">font-family:</span><span class="s5"> </span><span class="s1">'Orbitron'</span><span class="s9">,</span><span class="s5"> </span><span class="s1">'Microsoft JhengHei'</span><span class="s9">,</span><span class="s5"> </span><span class="s6">sans-serif</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">color:</span><span class="s1"> </span><span class="s6">white</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">touch-action:</span><span class="s1"> </span><span class="s6">none</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s9">}</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p7"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1">/* </span><span class="s7">掃描線特效</span><span class="s1"> */</span></p>
-<p class="p1"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1">.scanline-overlay</span><span class="s5"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">position:</span><span class="s1"> </span><span class="s6">fixed</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">inset:</span><span class="s1"> </span><span class="s10">0</span><span class="s9">;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s2">background:</span><span class="s5"> </span><span class="s1">linear-gradient(rgba(</span><span class="s10">18</span><span class="s9">,</span><span class="s5"> </span><span class="s10">16</span><span class="s9">,</span><span class="s5"> </span><span class="s10">16</span><span class="s9">,</span><span class="s5"> </span><span class="s10">0</span><span class="s1">)</span><span class="s5"> </span><span class="s10">50%</span><span class="s9">,</span><span class="s5"> </span><span class="s1">rgba(</span><span class="s10">0</span><span class="s9">,</span><span class="s5"> </span><span class="s10">0</span><span class="s9">,</span><span class="s5"> </span><span class="s10">0</span><span class="s9">,</span><span class="s5"> </span><span class="s10">0.25</span><span class="s1">)</span><span class="s5"> </span><span class="s10">50%</span><span class="s1">)</span><span class="s9">,</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                        </span></span><span class="s6">linear-gradient(</span><span class="s10">90deg</span><span class="s9">,</span><span class="s1"> </span><span class="s6">rgba(</span><span class="s10">255</span><span class="s9">,</span><span class="s1"> </span><span class="s10">0</span><span class="s9">,</span><span class="s1"> </span><span class="s10">0</span><span class="s9">,</span><span class="s1"> </span><span class="s10">0.06</span><span class="s6">)</span><span class="s9">,</span><span class="s1"> </span><span class="s6">rgba(</span><span class="s10">0</span><span class="s9">,</span><span class="s1"> </span><span class="s10">255</span><span class="s9">,</span><span class="s1"> </span><span class="s10">0</span><span class="s9">,</span><span class="s1"> </span><span class="s10">0.02</span><span class="s6">)</span><span class="s9">,</span><span class="s1"> </span><span class="s6">rgba(</span><span class="s10">0</span><span class="s9">,</span><span class="s1"> </span><span class="s10">0</span><span class="s9">,</span><span class="s1"> </span><span class="s10">255</span><span class="s9">,</span><span class="s1"> </span><span class="s10">0.06</span><span class="s6">))</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">background-size:</span><span class="s1"> </span><span class="s10">100%</span><span class="s1"> </span><span class="s10">4px</span><span class="s9">,</span><span class="s1"> </span><span class="s10">3px</span><span class="s1"> </span><span class="s10">100%</span><span class="s9">;</span></p>
-<p class="p3"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s1">pointer-events:</span><span class="s5"> </span><span class="s6">none</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">z-index:</span><span class="s1"> </span><span class="s10">1000</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">animation:</span><span class="s1"> </span><span class="s6">flicker</span><span class="s1"> </span><span class="s10">0.15s</span><span class="s1"> </span><span class="s6">infinite</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s9">}</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">@keyframes</span><span class="s1"> </span><span class="s6">flicker</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s10">0%</span><span class="s1"> </span><span class="s9">{</span><span class="s1"> </span><span class="s2">opacity:</span><span class="s1"> </span><span class="s10">0.15</span><span class="s9">;</span><span class="s1"> </span><span class="s9">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s10">5%</span><span class="s1"> </span><span class="s9">{</span><span class="s1"> </span><span class="s2">opacity:</span><span class="s1"> </span><span class="s10">0.2</span><span class="s9">;</span><span class="s1"> </span><span class="s9">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s10">10%</span><span class="s1"> </span><span class="s9">{</span><span class="s1"> </span><span class="s2">opacity:</span><span class="s1"> </span><span class="s10">0.1</span><span class="s9">;</span><span class="s1"> </span><span class="s9">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s10">100%</span><span class="s1"> </span><span class="s9">{</span><span class="s1"> </span><span class="s2">opacity:</span><span class="s1"> </span><span class="s10">0.15</span><span class="s9">;</span><span class="s1"> </span><span class="s9">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s9">}</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p1"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1">#loginScreen</span><span class="s9">,</span><span class="s5"> </span><span class="s1">#registerScreen</span><span class="s5"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">display:</span><span class="s1"> </span><span class="s6">flex</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">align-items:</span><span class="s1"> </span><span class="s6">center</span><span class="s9">;</span></p>
-<p class="p3"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s1">justify-content:</span><span class="s5"> </span><span class="s6">center</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">min-height:</span><span class="s1"> </span><span class="s10">100vh</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">background:</span><span class="s1"> </span><span class="s6">radial-gradient(circle</span><span class="s1"> </span><span class="s6">at</span><span class="s1"> </span><span class="s6">center</span><span class="s9">,</span><span class="s1"> #1a1a2e </span><span class="s10">0%</span><span class="s9">,</span><span class="s1"> #050505 </span><span class="s10">100%</span><span class="s6">)</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">position:</span><span class="s1"> </span><span class="s6">relative</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">z-index:</span><span class="s1"> </span><span class="s10">50</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">padding:</span><span class="s1"> </span><span class="s10">20px</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">overflow-y:</span><span class="s1"> </span><span class="s6">auto</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s9">}</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p1"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1">.login-card</span><span class="s5"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">background:</span><span class="s1"> </span><span class="s6">rgba(</span><span class="s10">10</span><span class="s9">,</span><span class="s1"> </span><span class="s10">10</span><span class="s9">,</span><span class="s1"> </span><span class="s10">15</span><span class="s9">,</span><span class="s1"> </span><span class="s10">0.85</span><span class="s6">)</span><span class="s9">;</span></p>
-<p class="p3"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s1">backdrop-filter:</span><span class="s5"> </span><span class="s6">blur(</span><span class="s10">15px</span><span class="s6">)</span><span class="s9">;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s2">border:</span><span class="s5"> </span><span class="s10">2px</span><span class="s5"> </span><span class="s1">solid</span><span class="s5"> </span><span class="s1">var(--neon-blue)</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">box-shadow:</span><span class="s1"> </span><span class="s10">0</span><span class="s1"> </span><span class="s10">0</span><span class="s1"> </span><span class="s10">20px</span><span class="s1"> </span><span class="s6">rgba(</span><span class="s10">0</span><span class="s9">,</span><span class="s1"> </span><span class="s10">242</span><span class="s9">,</span><span class="s1"> </span><span class="s10">255</span><span class="s9">,</span><span class="s1"> </span><span class="s10">0.3</span><span class="s6">)</span><span class="s9">;</span></p>
-<p class="p8"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s2">clip-path:</span><span class="s5"> </span><span class="s6">polygon(</span><span class="s1">0</span><span class="s5"> </span><span class="s1">0</span><span class="s9">,</span><span class="s5"> </span><span class="s1">100%</span><span class="s5"> </span><span class="s1">0</span><span class="s9">,</span><span class="s5"> </span><span class="s1">100%</span><span class="s5"> </span><span class="s1">90%</span><span class="s9">,</span><span class="s5"> </span><span class="s1">90%</span><span class="s5"> </span><span class="s1">100%</span><span class="s9">,</span><span class="s5"> </span><span class="s1">0</span><span class="s5"> </span><span class="s1">100%</span><span class="s6">)</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">padding:</span><span class="s1"> </span><span class="s10">2rem</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">width:</span><span class="s1"> </span><span class="s10">100%</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">max-width:</span><span class="s1"> </span><span class="s10">500px</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">margin:</span><span class="s1"> </span><span class="s6">auto</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s9">}</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p1"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1">.title-glow</span><span class="s5"> </span><span class="s9">{</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s2">text-shadow:</span><span class="s5"> </span><span class="s10">0</span><span class="s5"> </span><span class="s10">0</span><span class="s5"> </span><span class="s10">10px</span><span class="s5"> </span><span class="s1">var(--neon-blue)</span><span class="s9">,</span><span class="s5"> </span><span class="s10">0</span><span class="s5"> </span><span class="s10">0</span><span class="s5"> </span><span class="s10">20px</span><span class="s5"> </span><span class="s1">var(--neon-blue)</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s9">}</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p1"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1">.input-cyber</span><span class="s5"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">background:</span><span class="s1"> </span><span class="s6">rgba(</span><span class="s10">255</span><span class="s9">,</span><span class="s1"> </span><span class="s10">255</span><span class="s9">,</span><span class="s1"> </span><span class="s10">255</span><span class="s9">,</span><span class="s1"> </span><span class="s10">0.05</span><span class="s6">)</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">border:</span><span class="s1"> </span><span class="s10">1px</span><span class="s1"> </span><span class="s6">solid</span><span class="s1"> </span><span class="s6">rgba(</span><span class="s10">0</span><span class="s9">,</span><span class="s1"> </span><span class="s10">242</span><span class="s9">,</span><span class="s1"> </span><span class="s10">255</span><span class="s9">,</span><span class="s1"> </span><span class="s10">0.3</span><span class="s6">)</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">color:</span><span class="s1"> #fff</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">outline:</span><span class="s1"> </span><span class="s6">none</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">transition:</span><span class="s1"> </span><span class="s6">all</span><span class="s1"> </span><span class="s10">0.3s</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s9">}</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p1"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1">.input-cyber:focus</span><span class="s5"> </span><span class="s9">{</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s2">border-color:</span><span class="s5"> </span><span class="s1">var(--neon-pink)</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">box-shadow:</span><span class="s1"> </span><span class="s10">0</span><span class="s1"> </span><span class="s10">0</span><span class="s1"> </span><span class="s10">10px</span><span class="s1"> </span><span class="s6">rgba(</span><span class="s10">255</span><span class="s9">,</span><span class="s1"> </span><span class="s10">0</span><span class="s9">,</span><span class="s1"> </span><span class="s10">255</span><span class="s9">,</span><span class="s1"> </span><span class="s10">0.3</span><span class="s6">)</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s9">}</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s4">.btn-neon</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s2">border:</span><span class="s5"> </span><span class="s10">2px</span><span class="s5"> </span><span class="s1">solid</span><span class="s5"> </span><span class="s1">var(--neon-pink)</span><span class="s9">;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s2">color:</span><span class="s5"> </span><span class="s1">var(--neon-pink)</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">transition:</span><span class="s1"> </span><span class="s6">all</span><span class="s1"> </span><span class="s10">0.3s</span><span class="s9">;</span></p>
-<p class="p3"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s1">text-transform:</span><span class="s5"> </span><span class="s6">uppercase</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">font-weight:</span><span class="s1"> </span><span class="s6">bold</span><span class="s9">;</span></p>
-<p class="p3"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s1">letter-spacing:</span><span class="s5"> </span><span class="s10">0.1em</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s9">}</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p1"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1">.btn-neon:hover:not</span><span class="s5">(</span><span class="s1">:disabled</span><span class="s5">) </span><span class="s9">{</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s2">background:</span><span class="s5"> </span><span class="s1">var(--neon-pink)</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">color:</span><span class="s1"> #000</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">box-shadow:</span><span class="s1"> </span><span class="s10">0</span><span class="s1"> </span><span class="s10">0</span><span class="s1"> </span><span class="s10">30px</span><span class="s1"> </span><span class="s6">var(--neon-pink)</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s9">}</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p1"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1">.legend-item</span><span class="s5"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">background:</span><span class="s1"> </span><span class="s6">rgba(</span><span class="s10">255</span><span class="s9">,</span><span class="s10">255</span><span class="s9">,</span><span class="s10">255</span><span class="s9">,</span><span class="s10">0.03</span><span class="s6">)</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">border-left:</span><span class="s1"> </span><span class="s10">2px</span><span class="s1"> </span><span class="s6">solid</span><span class="s1"> #333</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">padding:</span><span class="s1"> </span><span class="s10">8px</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">display:</span><span class="s1"> </span><span class="s6">flex</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">align-items:</span><span class="s1"> </span><span class="s6">center</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">gap:</span><span class="s1"> </span><span class="s10">12px</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">font-size:</span><span class="s1"> </span><span class="s10">11px</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s9">}</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s4">#gameScreen</span><span class="s1"> </span><span class="s9">{</span><span class="s1"> </span><span class="s2">display:</span><span class="s1"> </span><span class="s6">none</span><span class="s9">;</span><span class="s1"> </span><span class="s9">}</span></p>
-<p class="p3"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s4">#gameCanvas</span><span class="s5"> </span><span class="s9">{</span><span class="s5"> </span><span class="s1">display:</span><span class="s5"> </span><span class="s6">block</span><span class="s9">;</span><span class="s5"> </span><span class="s1">background-color:</span><span class="s5"> #020617</span><span class="s9">;</span><span class="s5"> </span><span class="s9">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s4">.hidden</span><span class="s1"> </span><span class="s9">{</span><span class="s1"> </span><span class="s2">display:</span><span class="s1"> </span><span class="s6">none</span><span class="s1"> </span><span class="s8">!important</span><span class="s9">;</span><span class="s1"> </span><span class="s9">}</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p1"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1">.loading-dots:after</span><span class="s5"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">content:</span><span class="s1"> </span><span class="s11">'.'</span><span class="s9">;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s2">animation:</span><span class="s5"> </span><span class="s1">dots</span><span class="s5"> </span><span class="s10">1.5s</span><span class="s5"> </span><span class="s1">steps(</span><span class="s10">5</span><span class="s9">,</span><span class="s5"> </span><span class="s1">end)</span><span class="s5"> </span><span class="s1">infinite</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s9">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">@keyframes</span><span class="s1"> </span><span class="s6">dots</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s10">0%</span><span class="s9">,</span><span class="s1"> </span><span class="s10">20%</span><span class="s1"> </span><span class="s9">{</span><span class="s1"> </span><span class="s2">content:</span><span class="s1"> </span><span class="s11">'.'</span><span class="s9">;</span><span class="s1"> </span><span class="s9">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s10">40%</span><span class="s1"> </span><span class="s9">{</span><span class="s1"> </span><span class="s2">content:</span><span class="s1"> </span><span class="s11">'..'</span><span class="s9">;</span><span class="s1"> </span><span class="s9">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s10">60%</span><span class="s1"> </span><span class="s9">{</span><span class="s1"> </span><span class="s2">content:</span><span class="s1"> </span><span class="s11">'...'</span><span class="s9">;</span><span class="s1"> </span><span class="s9">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s10">80%</span><span class="s9">,</span><span class="s1"> </span><span class="s10">100%</span><span class="s1"> </span><span class="s9">{</span><span class="s1"> </span><span class="s2">content:</span><span class="s1"> </span><span class="s11">''</span><span class="s9">;</span><span class="s1"> </span><span class="s9">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s9">}</span></p>
-<p class="p1"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;/</span><span class="s1">style</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s3">&lt;/</span><span class="s1">head</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s3">&lt;</span><span class="s1">body</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s4">div</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"scanline-overlay"</span><span class="s3">&gt;&lt;/</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p7"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s1">&lt;!-- </span><span class="s7">登入畫面</span><span class="s1"> --&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s4">div</span><span class="s5"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"loginScreen"</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s4">div</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"login-card"</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s4">div</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"text-center mb-6"</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s4">h1</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"title-glow text-4xl font-black italic mb-2 text-white"</span><span class="s3">&gt;</span><span class="s12">邊境生存戰</span><span class="s3">&lt;/</span><span class="s4">h1</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s4">p</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"text-[10px] text-cyan-500 tracking-[0.3em] uppercase opacity-70"</span><span class="s3">&gt;</span><span class="s5">Security Protocol Alpha-9</span><span class="s3">&lt;/</span><span class="s4">p</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;/</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p7"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s1">&lt;!-- </span><span class="s7">敵人與道具介紹</span><span class="s1"> (</span><span class="s7">重新加入</span><span class="s1">) --&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s4">div</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"grid grid-cols-1 gap-2 mb-8 border-y border-white/10 py-4"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s4">div</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s6">"legend-item"</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;</span><span class="s4">div</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"w-4 h-4 bg-[#f87171]"</span><span class="s5"> </span><span class="s2">style</span><span class="s3">=</span><span class="s1">"clip-path: polygon(50% 0%, 0% 100%, 100% 100%);"</span><span class="s3">&gt;&lt;/</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;</span><span class="s4">div</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s6">"text-gray-300"</span><span class="s3">&gt;</span><span class="s7">獵殺者</span><span class="s1"> (Chaser)</span><span class="s7">：自動追蹤玩家位置，碰撞扣</span><span class="s1"> 20HP</span><span class="s7">。</span><span class="s3">&lt;/</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;/</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s4">div</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s6">"legend-item"</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;</span><span class="s4">div</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"w-4 h-4 bg-white border border-gray-400"</span><span class="s3">&gt;&lt;/</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;</span><span class="s4">div</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s6">"text-gray-300"</span><span class="s3">&gt;</span><span class="s7">掠奪者</span><span class="s1"> (Thief)</span><span class="s7">：無視玩家，優先偷取金幣，減少生存機會。</span><span class="s3">&lt;/</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;/</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s4">div</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s6">"legend-item"</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;</span><span class="s4">div</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"w-3 h-3 rounded-full bg-[#fbbf24] shadow-[0_0_8px_#fbbf24]"</span><span class="s3">&gt;&lt;/</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;</span><span class="s4">div</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s6">"text-gray-300"</span><span class="s3">&gt;</span><span class="s7">能量核心：增加</span><span class="s1"> 500 </span><span class="s7">分並大幅擴張安全區邊界。</span><span class="s3">&lt;/</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;/</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s4">div</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s6">"legend-item"</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;</span><span class="s4">div</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"w-3 h-3 rounded-full bg-[#22d3ee] shadow-[0_0_8px_#22d3ee]"</span><span class="s3">&gt;&lt;/</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;</span><span class="s4">div</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s6">"text-gray-300"</span><span class="s3">&gt;</span><span class="s7">修復套件：立即修復裝甲，恢復</span><span class="s1"> 20HP</span><span class="s7">。</span><span class="s3">&lt;/</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;/</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;/</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s4">div</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s6">"space-y-4"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;</span><span class="s4">label</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"block text-[10px] text-pink-500 uppercase tracking-widest mb-1"</span><span class="s3">&gt;</span><span class="s5">User Identity / </span><span class="s12">身分碼</span><span class="s3">&lt;/</span><span class="s4">label</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;</span><span class="s4">input</span><span class="s5"> </span><span class="s2">type</span><span class="s3">=</span><span class="s1">"text"</span><span class="s5"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"loginUser"</span><span class="s5"> </span><span class="s2">placeholder</span><span class="s3">=</span><span class="s1">"OPERATOR_01"</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"input-cyber w-full px-4 py-2 rounded-none"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;/</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;</span><span class="s4">label</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"block text-[10px] text-pink-500 uppercase tracking-widest mb-1"</span><span class="s3">&gt;</span><span class="s5">Access Key / </span><span class="s12">授權密鑰</span><span class="s3">&lt;/</span><span class="s4">label</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;</span><span class="s4">input</span><span class="s5"> </span><span class="s2">type</span><span class="s3">=</span><span class="s1">"password"</span><span class="s5"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"loginPass"</span><span class="s5"> </span><span class="s2">placeholder</span><span class="s3">=</span><span class="s1">"••••••••"</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"input-cyber w-full px-4 py-2 rounded-none"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;/</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s4">div</span><span class="s5"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"loginMsg"</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"text-red-500 text-[10px] uppercase text-center h-4"</span><span class="s3">&gt;&lt;/</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s4">button</span><span class="s5"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"doLogin"</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"btn-neon w-full py-4 text-lg"</span><span class="s3">&gt;</span><span class="s12">進入系統</span><span class="s3">&lt;/</span><span class="s4">button</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s4">button</span><span class="s5"> </span><span class="s2">onclick</span><span class="s3">=</span><span class="s1">"toggleScreen('register')"</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"w-full text-gray-500 text-[10px] hover:text-yellow-400 transition-colors uppercase tracking-widest"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span>[ </span><span class="s7">建立新身分存檔</span><span class="s1"> ]</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;/</span><span class="s4">button</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;/</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;/</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;/</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p7"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s1">&lt;!-- </span><span class="s7">註冊畫面</span><span class="s1"> --&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s4">div</span><span class="s5"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"registerScreen"</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"hidden"</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s4">div</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"login-card"</span><span class="s5"> </span><span class="s2">style</span><span class="s3">=</span><span class="s1">"border-color: var(--cyber-yellow);"</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s4">div</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"text-center mb-10"</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s4">h1</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"text-4xl font-black italic mb-2 text-yellow-400"</span><span class="s3">&gt;</span><span class="s12">建立身分</span><span class="s3">&lt;/</span><span class="s4">h1</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s4">p</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"text-[10px] text-yellow-500 tracking-[0.3em] uppercase opacity-70"</span><span class="s3">&gt;</span><span class="s5">Create New Identity Profile</span><span class="s3">&lt;/</span><span class="s4">p</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;/</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s4">div</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s6">"space-y-6"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;</span><span class="s4">label</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"block text-[10px] text-yellow-500 uppercase tracking-widest mb-2"</span><span class="s3">&gt;</span><span class="s5">New Identity / </span><span class="s12">新帳號</span><span class="s3">&lt;/</span><span class="s4">label</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;</span><span class="s4">input</span><span class="s5"> </span><span class="s2">type</span><span class="s3">=</span><span class="s1">"text"</span><span class="s5"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"regUser"</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"input-cyber w-full px-4 py-3 rounded-none"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;/</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;</span><span class="s4">label</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"block text-[10px] text-yellow-500 uppercase tracking-widest mb-2"</span><span class="s3">&gt;</span><span class="s5">Access Key / </span><span class="s12">密鑰</span><span class="s3">&lt;/</span><span class="s4">label</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;</span><span class="s4">input</span><span class="s5"> </span><span class="s2">type</span><span class="s3">=</span><span class="s1">"password"</span><span class="s5"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"regPass"</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"input-cyber w-full px-4 py-3 rounded-none"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;/</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s4">div</span><span class="s5"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"regMsg"</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"text-yellow-500 text-[10px] uppercase text-center h-4"</span><span class="s3">&gt;&lt;/</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s4">button</span><span class="s5"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"doRegister"</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"btn-neon w-full py-4 text-lg"</span><span class="s5"> </span><span class="s2">style</span><span class="s3">=</span><span class="s1">"border-color: var(--cyber-yellow); color: var(--cyber-yellow);"</span><span class="s3">&gt;</span><span class="s12">確認建立</span><span class="s3">&lt;/</span><span class="s4">button</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s4">button</span><span class="s5"> </span><span class="s2">onclick</span><span class="s3">=</span><span class="s1">"toggleScreen('login')"</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"w-full text-gray-500 text-xs hover:text-cyan-400 transition-colors uppercase tracking-widest"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span>[ </span><span class="s7">返回登入</span><span class="s1"> ]</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;/</span><span class="s4">button</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;/</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;/</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;/</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p7"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s1">&lt;!-- </span><span class="s7">遊戲畫面</span><span class="s1"> --&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s4">div</span><span class="s5"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"gameScreen"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s4">div</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s6">"game-ui"</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s4">div</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"stats-box bg-slate-900/80 p-4 border-l-4 border-cyan-400 absolute top-5 left-5 pointer-events-none z-10"</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s4">div</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"text-[10px] text-blue-400 font-bold uppercase"</span><span class="s3">&gt;</span><span class="s5">Identity: </span><span class="s3">&lt;</span><span class="s4">span</span><span class="s5"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"displayUsername"</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"text-white"</span><span class="s3">&gt;</span><span class="s5">---</span><span class="s3">&lt;/</span><span class="s4">span</span><span class="s3">&gt;&lt;/</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s4">div</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"text-[10px] text-pink-400 font-bold uppercase"</span><span class="s3">&gt;</span><span class="s5">Hi-Score: </span><span class="s3">&lt;</span><span class="s4">span</span><span class="s5"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"hiScoreVal"</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"text-cyan-400"</span><span class="s3">&gt;</span><span class="s5">0</span><span class="s3">&lt;/</span><span class="s4">span</span><span class="s3">&gt;&lt;/</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s4">div</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"text-xl font-black mt-2"</span><span class="s3">&gt;</span><span class="s5">HP </span><span class="s3">&lt;</span><span class="s4">span</span><span class="s5"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"healthVal"</span><span class="s3">&gt;</span><span class="s5">100</span><span class="s3">&lt;/</span><span class="s4">span</span><span class="s3">&gt;</span><span class="s5">%</span><span class="s3">&lt;/</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s4">div</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"w-48 h-1 bg-gray-800 mt-1"</span><span class="s3">&gt;&lt;</span><span class="s4">div</span><span class="s5"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"hpBar"</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"h-full bg-cyan-400 transition-all"</span><span class="s5"> </span><span class="s2">style</span><span class="s3">=</span><span class="s1">"width: 100%"</span><span class="s3">&gt;&lt;/</span><span class="s4">div</span><span class="s3">&gt;&lt;/</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s4">div</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"mt-4 flex justify-between text-sm"</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;</span><span class="s4">span</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"text-gray-500 font-bold uppercase tracking-tighter"</span><span class="s3">&gt;</span><span class="s5">LV.</span><span class="s3">&lt;</span><span class="s4">span</span><span class="s5"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"levelVal"</span><span class="s3">&gt;</span><span class="s5">1</span><span class="s3">&lt;/</span><span class="s4">span</span><span class="s3">&gt;&lt;/</span><span class="s4">span</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;</span><span class="s4">span</span><span class="s5"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"scoreVal"</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"font-mono font-bold text-white"</span><span class="s3">&gt;</span><span class="s5">0</span><span class="s3">&lt;/</span><span class="s4">span</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;/</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;/</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;/</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s4">canvas</span><span class="s5"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"gameCanvas"</span><span class="s3">&gt;&lt;/</span><span class="s4">canvas</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s4">div</span><span class="s5"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"gameOver"</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black/95 p-12 border-2 border-red-500 text-center z-[100]"</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s4">h1</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"text-4xl font-black mb-2 text-red-500 italic"</span><span class="s3">&gt;</span><span class="s5">CONNECTION LOST</span><span class="s3">&lt;/</span><span class="s4">h1</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s4">p</span><span class="s5"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"saveStatus"</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"text-[10px] text-gray-500 uppercase mb-4"</span><span class="s3">&gt;</span><span class="s12">正在同步數據到雲端</span><span class="s5">...</span><span class="s3">&lt;/</span><span class="s4">p</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s4">div</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"bg-white/5 p-6 mb-8 border border-gray-800"</span><span class="s3">&gt;&lt;</span><span class="s4">p</span><span class="s5"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"finalScore"</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"text-5xl font-mono font-bold text-white"</span><span class="s3">&gt;</span><span class="s5">0</span><span class="s3">&lt;/</span><span class="s4">p</span><span class="s3">&gt;&lt;/</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s4">button</span><span class="s5"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"restartBtn"</span><span class="s5"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"bg-blue-600 text-white font-black py-4 px-12 uppercase tracking-widest hover:bg-blue-500 transition-colors"</span><span class="s3">&gt;</span><span class="s12">重啟系統</span><span class="s3">&lt;/</span><span class="s4">button</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;/</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;/</span><span class="s4">div</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p1"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s1">script</span><span class="s3">&gt;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s8">const</span><span class="s5"> </span><span class="s13">GAS_URL</span><span class="s5"> </span><span class="s9">=</span><span class="s5"> </span><span class="s1">'https://script.google.com/macros/s/AKfycbyBJwuRdzJvw6b10megAgsYxhOwTLbmWizsbjWMx7LjL7PhY3QhZla7wRJzIbYxjaJc/exec'</span><span class="s9">;</span><span class="s5"><span class="Apple-converted-space"> </span></span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">const</span><span class="s1"> canvas </span><span class="s9">=</span><span class="s1"> document</span><span class="s9">.</span><span class="s1">getElementById</span><span class="s9">(</span><span class="s11">'gameCanvas'</span><span class="s9">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">const</span><span class="s1"> ctx </span><span class="s9">=</span><span class="s1"> canvas</span><span class="s9">.</span><span class="s1">getContext</span><span class="s9">(</span><span class="s11">'2d'</span><span class="s9">);</span></p>
-<p class="p6"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">let</span><span class="s1"> currentUser </span><span class="s9">=</span><span class="s1"> </span><span class="s11">""</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">let</span><span class="s1"> currentHiScore </span><span class="s9">=</span><span class="s1"> </span><span class="s14">0</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">let</span><span class="s1"> gameActive </span><span class="s9">=</span><span class="s1"> </span><span class="s8">false</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">let</span><span class="s1"> score </span><span class="s9">=</span><span class="s1"> </span><span class="s14">0</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">let</span><span class="s1"> health </span><span class="s9">=</span><span class="s1"> </span><span class="s14">100</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">let</span><span class="s1"> level </span><span class="s9">=</span><span class="s1"> </span><span class="s14">1</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">let</span><span class="s1"> lastTime </span><span class="s9">=</span><span class="s1"> </span><span class="s14">0</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">let</span><span class="s1"> bulletTimer </span><span class="s9">=</span><span class="s1"> </span><span class="s14">0</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">let</span><span class="s1"> enemyTimer </span><span class="s9">=</span><span class="s1"> </span><span class="s14">0</span><span class="s9">;</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">const</span><span class="s1"> player </span><span class="s9">=</span><span class="s1"> </span><span class="s9">{</span><span class="s1"> x</span><span class="s9">:</span><span class="s1"> </span><span class="s14">0</span><span class="s9">,</span><span class="s1"> y</span><span class="s9">:</span><span class="s1"> </span><span class="s14">0</span><span class="s9">,</span><span class="s1"> radius</span><span class="s9">:</span><span class="s1"> </span><span class="s14">10</span><span class="s9">,</span><span class="s1"> targetX</span><span class="s9">:</span><span class="s1"> </span><span class="s14">0</span><span class="s9">,</span><span class="s1"> targetY</span><span class="s9">:</span><span class="s1"> </span><span class="s14">0</span><span class="s1"> </span><span class="s9">};</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">const</span><span class="s1"> safeZone </span><span class="s9">=</span><span class="s1"> </span><span class="s9">{</span><span class="s1"> x</span><span class="s9">:</span><span class="s1"> </span><span class="s14">0</span><span class="s9">,</span><span class="s1"> y</span><span class="s9">:</span><span class="s1"> </span><span class="s14">0</span><span class="s9">,</span><span class="s1"> radius</span><span class="s9">:</span><span class="s1"> </span><span class="s14">0</span><span class="s9">,</span><span class="s1"> maxRadius</span><span class="s9">:</span><span class="s1"> </span><span class="s14">0</span><span class="s9">,</span><span class="s1"> minRadius</span><span class="s9">:</span><span class="s1"> </span><span class="s14">45</span><span class="s1"> </span><span class="s9">};</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">let</span><span class="s1"> bullets </span><span class="s9">=</span><span class="s1"> </span><span class="s9">[];</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">let</span><span class="s1"> items </span><span class="s9">=</span><span class="s1"> </span><span class="s9">[];</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">let</span><span class="s1"> enemies </span><span class="s9">=</span><span class="s1"> </span><span class="s9">[];</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">function</span><span class="s1"> toggleScreen</span><span class="s9">(</span><span class="s1">screen</span><span class="s9">)</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>document</span><span class="s9">.</span><span class="s1">getElementById</span><span class="s9">(</span><span class="s11">'loginScreen'</span><span class="s9">).</span><span class="s1">classList</span><span class="s9">.</span><span class="s1">add</span><span class="s9">(</span><span class="s11">'hidden'</span><span class="s9">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>document</span><span class="s9">.</span><span class="s1">getElementById</span><span class="s9">(</span><span class="s11">'registerScreen'</span><span class="s9">).</span><span class="s1">classList</span><span class="s9">.</span><span class="s1">add</span><span class="s9">(</span><span class="s11">'hidden'</span><span class="s9">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>document</span><span class="s9">.</span><span class="s1">getElementById</span><span class="s9">(</span><span class="s11">`</span><span class="s9">${</span><span class="s1">screen</span><span class="s9">}</span><span class="s11">Screen`</span><span class="s9">).</span><span class="s1">classList</span><span class="s9">.</span><span class="s1">remove</span><span class="s9">(</span><span class="s11">'hidden'</span><span class="s9">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s9">}</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">async</span><span class="s1"> </span><span class="s8">function</span><span class="s1"> apiCall</span><span class="s9">(</span><span class="s1">data</span><span class="s9">)</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">try</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">const</span><span class="s1"> response </span><span class="s9">=</span><span class="s1"> </span><span class="s8">await</span><span class="s1"> fetch</span><span class="s9">(</span><span class="s13">GAS_URL</span><span class="s9">,</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span>method</span><span class="s9">:</span><span class="s1"> </span><span class="s11">'POST'</span><span class="s9">,</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span>body</span><span class="s9">:</span><span class="s1"> </span><span class="s13">JSON</span><span class="s9">.</span><span class="s1">stringify</span><span class="s9">(</span><span class="s1">data</span><span class="s9">)</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s9">});</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">return</span><span class="s1"> </span><span class="s8">await</span><span class="s1"> response</span><span class="s9">.</span><span class="s1">json</span><span class="s9">();</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s9">}</span><span class="s1"> </span><span class="s8">catch</span><span class="s1"> </span><span class="s9">(</span><span class="s1">e</span><span class="s9">)</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>console</span><span class="s9">.</span><span class="s1">error</span><span class="s9">(</span><span class="s11">"API Error:"</span><span class="s9">,</span><span class="s1"> e</span><span class="s9">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">return</span><span class="s1"> </span><span class="s9">{</span><span class="s1"> status</span><span class="s9">:</span><span class="s1"> </span><span class="s11">'error'</span><span class="s9">,</span><span class="s1"> message</span><span class="s9">:</span><span class="s1"> </span><span class="s11">'</span><span class="s15">無法連接到後端伺服器</span><span class="s11">'</span><span class="s1"> </span><span class="s9">};</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s9">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s9">}</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span>document</span><span class="s9">.</span><span class="s1">getElementById</span><span class="s9">(</span><span class="s11">'doLogin'</span><span class="s9">).</span><span class="s1">onclick </span><span class="s9">=</span><span class="s1"> </span><span class="s8">async</span><span class="s1"> </span><span class="s8">function</span><span class="s9">()</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">const</span><span class="s1"> user </span><span class="s9">=</span><span class="s1"> document</span><span class="s9">.</span><span class="s1">getElementById</span><span class="s9">(</span><span class="s11">'loginUser'</span><span class="s9">).</span><span class="s1">value</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">const</span><span class="s1"> pass </span><span class="s9">=</span><span class="s1"> document</span><span class="s9">.</span><span class="s1">getElementById</span><span class="s9">(</span><span class="s11">'loginPass'</span><span class="s9">).</span><span class="s1">value</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">const</span><span class="s1"> msg </span><span class="s9">=</span><span class="s1"> document</span><span class="s9">.</span><span class="s1">getElementById</span><span class="s9">(</span><span class="s11">'loginMsg'</span><span class="s9">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">if</span><span class="s9">(!</span><span class="s1">user </span><span class="s9">||</span><span class="s1"> </span><span class="s9">!</span><span class="s1">pass</span><span class="s9">)</span><span class="s1"> </span><span class="s8">return</span><span class="s1"> msg</span><span class="s9">.</span><span class="s1">innerText </span><span class="s9">=</span><span class="s1"> </span><span class="s11">"</span><span class="s15">請填寫完整身分欄位</span><span class="s11">"</span><span class="s9">;</span></p>
-<p class="p6"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">this</span><span class="s9">.</span><span class="s1">disabled </span><span class="s9">=</span><span class="s1"> </span><span class="s8">true</span><span class="s9">;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s8">this</span><span class="s9">.</span><span class="s5">innerHTML </span><span class="s9">=</span><span class="s5"> </span><span class="s1">"</span><span class="s7">驗證中</span><span class="s1">&lt;span class='loading-dots'&gt;&lt;/span&gt;"</span><span class="s9">;</span></p>
-<p class="p6"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">const</span><span class="s1"> res </span><span class="s9">=</span><span class="s1"> </span><span class="s8">await</span><span class="s1"> apiCall</span><span class="s9">({</span><span class="s1"> action</span><span class="s9">:</span><span class="s1"> </span><span class="s11">'login'</span><span class="s9">,</span><span class="s1"> username</span><span class="s9">:</span><span class="s1"> user</span><span class="s9">,</span><span class="s1"> password</span><span class="s9">:</span><span class="s1"> pass </span><span class="s9">});</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">if</span><span class="s9">(</span><span class="s1">res</span><span class="s9">.</span><span class="s1">status </span><span class="s9">===</span><span class="s1"> </span><span class="s11">'success'</span><span class="s9">)</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>currentUser </span><span class="s9">=</span><span class="s1"> user</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>currentHiScore </span><span class="s9">=</span><span class="s1"> res</span><span class="s9">.</span><span class="s1">highscore</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>document</span><span class="s9">.</span><span class="s1">getElementById</span><span class="s9">(</span><span class="s11">'displayUsername'</span><span class="s9">).</span><span class="s1">innerText </span><span class="s9">=</span><span class="s1"> user</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>document</span><span class="s9">.</span><span class="s1">getElementById</span><span class="s9">(</span><span class="s11">'hiScoreVal'</span><span class="s9">).</span><span class="s1">innerText </span><span class="s9">=</span><span class="s1"> </span><span class="s13">Math</span><span class="s9">.</span><span class="s1">floor</span><span class="s9">(</span><span class="s1">res</span><span class="s9">.</span><span class="s1">highscore</span><span class="s9">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>startGame</span><span class="s9">();</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s9">}</span><span class="s1"> </span><span class="s8">else</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>msg</span><span class="s9">.</span><span class="s1">innerText </span><span class="s9">=</span><span class="s1"> res</span><span class="s9">.</span><span class="s1">message</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">this</span><span class="s9">.</span><span class="s1">disabled </span><span class="s9">=</span><span class="s1"> </span><span class="s8">false</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">this</span><span class="s9">.</span><span class="s1">innerHTML </span><span class="s9">=</span><span class="s1"> </span><span class="s11">"</span><span class="s15">進入系統</span><span class="s11">"</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s9">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s9">};</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span>document</span><span class="s9">.</span><span class="s1">getElementById</span><span class="s9">(</span><span class="s11">'doRegister'</span><span class="s9">).</span><span class="s1">onclick </span><span class="s9">=</span><span class="s1"> </span><span class="s8">async</span><span class="s1"> </span><span class="s8">function</span><span class="s9">()</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">const</span><span class="s1"> user </span><span class="s9">=</span><span class="s1"> document</span><span class="s9">.</span><span class="s1">getElementById</span><span class="s9">(</span><span class="s11">'regUser'</span><span class="s9">).</span><span class="s1">value</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">const</span><span class="s1"> pass </span><span class="s9">=</span><span class="s1"> document</span><span class="s9">.</span><span class="s1">getElementById</span><span class="s9">(</span><span class="s11">'regPass'</span><span class="s9">).</span><span class="s1">value</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">const</span><span class="s1"> msg </span><span class="s9">=</span><span class="s1"> document</span><span class="s9">.</span><span class="s1">getElementById</span><span class="s9">(</span><span class="s11">'regMsg'</span><span class="s9">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">if</span><span class="s9">(!</span><span class="s1">user </span><span class="s9">||</span><span class="s1"> </span><span class="s9">!</span><span class="s1">pass</span><span class="s9">)</span><span class="s1"> </span><span class="s8">return</span><span class="s1"> msg</span><span class="s9">.</span><span class="s1">innerText </span><span class="s9">=</span><span class="s1"> </span><span class="s11">"</span><span class="s15">請設定完整身分碼與密鑰</span><span class="s11">"</span><span class="s9">;</span></p>
-<p class="p6"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">this</span><span class="s9">.</span><span class="s1">disabled </span><span class="s9">=</span><span class="s1"> </span><span class="s8">true</span><span class="s9">;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s8">this</span><span class="s9">.</span><span class="s5">innerHTML </span><span class="s9">=</span><span class="s5"> </span><span class="s1">"</span><span class="s7">建立中</span><span class="s1">&lt;span class='loading-dots'&gt;&lt;/span&gt;"</span><span class="s9">;</span></p>
-<p class="p6"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">const</span><span class="s1"> res </span><span class="s9">=</span><span class="s1"> </span><span class="s8">await</span><span class="s1"> apiCall</span><span class="s9">({</span><span class="s1"> action</span><span class="s9">:</span><span class="s1"> </span><span class="s11">'register'</span><span class="s9">,</span><span class="s1"> username</span><span class="s9">:</span><span class="s1"> user</span><span class="s9">,</span><span class="s1"> password</span><span class="s9">:</span><span class="s1"> pass </span><span class="s9">});</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">if</span><span class="s9">(</span><span class="s1">res</span><span class="s9">.</span><span class="s1">status </span><span class="s9">===</span><span class="s1"> </span><span class="s11">'success'</span><span class="s9">)</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>msg</span><span class="s9">.</span><span class="s1">innerText </span><span class="s9">=</span><span class="s1"> </span><span class="s11">"</span><span class="s15">身分建立成功，請返回登入介面</span><span class="s11">"</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>msg</span><span class="s9">.</span><span class="s1">style</span><span class="s9">.</span><span class="s1">color </span><span class="s9">=</span><span class="s1"> </span><span class="s11">"#4ade80"</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s9">}</span><span class="s1"> </span><span class="s8">else</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>msg</span><span class="s9">.</span><span class="s1">innerText </span><span class="s9">=</span><span class="s1"> res</span><span class="s9">.</span><span class="s1">message</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>msg</span><span class="s9">.</span><span class="s1">style</span><span class="s9">.</span><span class="s1">color </span><span class="s9">=</span><span class="s1"> </span><span class="s11">"#facc15"</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s9">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">this</span><span class="s9">.</span><span class="s1">disabled </span><span class="s9">=</span><span class="s1"> </span><span class="s8">false</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">this</span><span class="s9">.</span><span class="s1">innerHTML </span><span class="s9">=</span><span class="s1"> </span><span class="s11">"</span><span class="s15">確認建立</span><span class="s11">"</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s9">};</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">class</span><span class="s1"> </span><span class="s13">Bullet</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">constructor</span><span class="s9">(</span><span class="s1">x</span><span class="s9">,</span><span class="s1"> y</span><span class="s9">,</span><span class="s1"> angle</span><span class="s9">,</span><span class="s1"> speed</span><span class="s9">)</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">this</span><span class="s9">.</span><span class="s1">x </span><span class="s9">=</span><span class="s1"> x</span><span class="s9">;</span><span class="s1"> </span><span class="s8">this</span><span class="s9">.</span><span class="s1">y </span><span class="s9">=</span><span class="s1"> y</span><span class="s9">;</span><span class="s1"> </span><span class="s8">this</span><span class="s9">.</span><span class="s1">angle </span><span class="s9">=</span><span class="s1"> angle</span><span class="s9">;</span><span class="s1"> </span><span class="s8">this</span><span class="s9">.</span><span class="s1">speed </span><span class="s9">=</span><span class="s1"> speed</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s9">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>update</span><span class="s9">()</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">this</span><span class="s9">.</span><span class="s1">x </span><span class="s9">+=</span><span class="s1"> </span><span class="s13">Math</span><span class="s9">.</span><span class="s1">cos</span><span class="s9">(</span><span class="s8">this</span><span class="s9">.</span><span class="s1">angle</span><span class="s9">)</span><span class="s1"> </span><span class="s9">*</span><span class="s1"> </span><span class="s8">this</span><span class="s9">.</span><span class="s1">speed</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">this</span><span class="s9">.</span><span class="s1">y </span><span class="s9">+=</span><span class="s1"> </span><span class="s13">Math</span><span class="s9">.</span><span class="s1">sin</span><span class="s9">(</span><span class="s8">this</span><span class="s9">.</span><span class="s1">angle</span><span class="s9">)</span><span class="s1"> </span><span class="s9">*</span><span class="s1"> </span><span class="s8">this</span><span class="s9">.</span><span class="s1">speed</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s9">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>draw</span><span class="s9">()</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>ctx</span><span class="s9">.</span><span class="s1">beginPath</span><span class="s9">();</span><span class="s1"> ctx</span><span class="s9">.</span><span class="s1">arc</span><span class="s9">(</span><span class="s8">this</span><span class="s9">.</span><span class="s1">x</span><span class="s9">,</span><span class="s1"> </span><span class="s8">this</span><span class="s9">.</span><span class="s1">y</span><span class="s9">,</span><span class="s1"> </span><span class="s14">4</span><span class="s9">,</span><span class="s1"> </span><span class="s14">0</span><span class="s9">,</span><span class="s1"> </span><span class="s13">Math</span><span class="s9">.</span><span class="s13">PI</span><span class="s1"> </span><span class="s9">*</span><span class="s1"> </span><span class="s14">2</span><span class="s9">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>ctx</span><span class="s9">.</span><span class="s1">fillStyle </span><span class="s9">=</span><span class="s1"> </span><span class="s11">'#f87171'</span><span class="s9">;</span><span class="s1"> ctx</span><span class="s9">.</span><span class="s1">shadowBlur </span><span class="s9">=</span><span class="s1"> </span><span class="s14">10</span><span class="s9">;</span><span class="s1"> ctx</span><span class="s9">.</span><span class="s1">shadowColor </span><span class="s9">=</span><span class="s1"> </span><span class="s11">'#f87171'</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>ctx</span><span class="s9">.</span><span class="s1">fill</span><span class="s9">();</span><span class="s1"> ctx</span><span class="s9">.</span><span class="s1">shadowBlur </span><span class="s9">=</span><span class="s1"> </span><span class="s14">0</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s9">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s9">}</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">class</span><span class="s1"> </span><span class="s13">Enemy</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">constructor</span><span class="s9">(</span><span class="s1">type</span><span class="s9">)</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">this</span><span class="s9">.</span><span class="s1">type </span><span class="s9">=</span><span class="s1"> type</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">this</span><span class="s9">.</span><span class="s1">radius </span><span class="s9">=</span><span class="s1"> </span><span class="s14">12</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">this</span><span class="s9">.</span><span class="s1">timer </span><span class="s9">=</span><span class="s1"> </span><span class="s14">0</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">this</span><span class="s9">.</span><span class="s1">lifeTimer </span><span class="s9">=</span><span class="s1"> </span><span class="s14">0</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">const</span><span class="s1"> side </span><span class="s9">=</span><span class="s1"> </span><span class="s13">Math</span><span class="s9">.</span><span class="s1">floor</span><span class="s9">(</span><span class="s13">Math</span><span class="s9">.</span><span class="s1">random</span><span class="s9">()</span><span class="s1"> </span><span class="s9">*</span><span class="s1"> </span><span class="s14">4</span><span class="s9">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">if</span><span class="s9">(</span><span class="s1">side </span><span class="s9">===</span><span class="s1"> </span><span class="s14">0</span><span class="s9">)</span><span class="s1"> </span><span class="s9">{</span><span class="s1"> </span><span class="s8">this</span><span class="s9">.</span><span class="s1">x </span><span class="s9">=</span><span class="s1"> </span><span class="s13">Math</span><span class="s9">.</span><span class="s1">random</span><span class="s9">()</span><span class="s1"> </span><span class="s9">*</span><span class="s1"> canvas</span><span class="s9">.</span><span class="s1">width</span><span class="s9">;</span><span class="s1"> </span><span class="s8">this</span><span class="s9">.</span><span class="s1">y </span><span class="s9">=</span><span class="s1"> </span><span class="s9">-</span><span class="s14">20</span><span class="s9">;</span><span class="s1"> </span><span class="s9">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">else</span><span class="s1"> </span><span class="s8">if</span><span class="s9">(</span><span class="s1">side </span><span class="s9">===</span><span class="s1"> </span><span class="s14">1</span><span class="s9">)</span><span class="s1"> </span><span class="s9">{</span><span class="s1"> </span><span class="s8">this</span><span class="s9">.</span><span class="s1">x </span><span class="s9">=</span><span class="s1"> canvas</span><span class="s9">.</span><span class="s1">width </span><span class="s9">+</span><span class="s1"> </span><span class="s14">20</span><span class="s9">;</span><span class="s1"> </span><span class="s8">this</span><span class="s9">.</span><span class="s1">y </span><span class="s9">=</span><span class="s1"> </span><span class="s13">Math</span><span class="s9">.</span><span class="s1">random</span><span class="s9">()</span><span class="s1"> </span><span class="s9">*</span><span class="s1"> canvas</span><span class="s9">.</span><span class="s1">height</span><span class="s9">;</span><span class="s1"> </span><span class="s9">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">else</span><span class="s1"> </span><span class="s8">if</span><span class="s9">(</span><span class="s1">side </span><span class="s9">===</span><span class="s1"> </span><span class="s14">2</span><span class="s9">)</span><span class="s1"> </span><span class="s9">{</span><span class="s1"> </span><span class="s8">this</span><span class="s9">.</span><span class="s1">x </span><span class="s9">=</span><span class="s1"> </span><span class="s13">Math</span><span class="s9">.</span><span class="s1">random</span><span class="s9">()</span><span class="s1"> </span><span class="s9">*</span><span class="s1"> canvas</span><span class="s9">.</span><span class="s1">width</span><span class="s9">;</span><span class="s1"> </span><span class="s8">this</span><span class="s9">.</span><span class="s1">y </span><span class="s9">=</span><span class="s1"> canvas</span><span class="s9">.</span><span class="s1">height </span><span class="s9">+</span><span class="s1"> </span><span class="s14">20</span><span class="s9">;</span><span class="s1"> </span><span class="s9">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">else</span><span class="s1"> </span><span class="s9">{</span><span class="s1"> </span><span class="s8">this</span><span class="s9">.</span><span class="s1">x </span><span class="s9">=</span><span class="s1"> </span><span class="s9">-</span><span class="s14">20</span><span class="s9">;</span><span class="s1"> </span><span class="s8">this</span><span class="s9">.</span><span class="s1">y </span><span class="s9">=</span><span class="s1"> </span><span class="s13">Math</span><span class="s9">.</span><span class="s1">random</span><span class="s9">()</span><span class="s1"> </span><span class="s9">*</span><span class="s1"> canvas</span><span class="s9">.</span><span class="s1">height</span><span class="s9">;</span><span class="s1"> </span><span class="s9">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s9">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>update</span><span class="s9">(</span><span class="s1">dt</span><span class="s9">)</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">this</span><span class="s9">.</span><span class="s1">timer </span><span class="s9">+=</span><span class="s1"> dt</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">if</span><span class="s9">(</span><span class="s8">this</span><span class="s9">.</span><span class="s1">type </span><span class="s9">===</span><span class="s1"> </span><span class="s11">'CHASER'</span><span class="s9">)</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span></span><span class="s8">this</span><span class="s9">.</span><span class="s1">lifeTimer </span><span class="s9">+=</span><span class="s1"> dt</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span></span><span class="s8">if</span><span class="s9">(</span><span class="s8">this</span><span class="s9">.</span><span class="s1">lifeTimer </span><span class="s9">&gt;</span><span class="s1"> </span><span class="s14">8</span><span class="s9">)</span><span class="s1"> </span><span class="s8">return</span><span class="s1"> </span><span class="s8">true</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span></span><span class="s8">const</span><span class="s1"> angle </span><span class="s9">=</span><span class="s1"> </span><span class="s13">Math</span><span class="s9">.</span><span class="s1">atan2</span><span class="s9">(</span><span class="s1">player</span><span class="s9">.</span><span class="s1">y </span><span class="s9">-</span><span class="s1"> </span><span class="s8">this</span><span class="s9">.</span><span class="s1">y</span><span class="s9">,</span><span class="s1"> player</span><span class="s9">.</span><span class="s1">x </span><span class="s9">-</span><span class="s1"> </span><span class="s8">this</span><span class="s9">.</span><span class="s1">x</span><span class="s9">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span></span><span class="s8">this</span><span class="s9">.</span><span class="s1">x </span><span class="s9">+=</span><span class="s1"> </span><span class="s13">Math</span><span class="s9">.</span><span class="s1">cos</span><span class="s9">(</span><span class="s1">angle</span><span class="s9">)</span><span class="s1"> </span><span class="s9">*</span><span class="s1"> </span><span class="s14">1.8</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span></span><span class="s8">this</span><span class="s9">.</span><span class="s1">y </span><span class="s9">+=</span><span class="s1"> </span><span class="s13">Math</span><span class="s9">.</span><span class="s1">sin</span><span class="s9">(</span><span class="s1">angle</span><span class="s9">)</span><span class="s1"> </span><span class="s9">*</span><span class="s1"> </span><span class="s14">1.8</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s9">}</span><span class="s1"> </span><span class="s8">else</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span></span><span class="s8">let</span><span class="s1"> target </span><span class="s9">=</span><span class="s1"> items</span><span class="s9">.</span><span class="s1">find</span><span class="s9">(</span><span class="s1">i </span><span class="s9">=&gt;</span><span class="s1"> i</span><span class="s9">.</span><span class="s1">type </span><span class="s9">===</span><span class="s1"> </span><span class="s11">'COIN'</span><span class="s9">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span></span><span class="s8">if</span><span class="s9">(</span><span class="s1">target</span><span class="s9">)</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                        </span></span><span class="s8">const</span><span class="s1"> angle </span><span class="s9">=</span><span class="s1"> </span><span class="s13">Math</span><span class="s9">.</span><span class="s1">atan2</span><span class="s9">(</span><span class="s1">target</span><span class="s9">.</span><span class="s1">y </span><span class="s9">-</span><span class="s1"> </span><span class="s8">this</span><span class="s9">.</span><span class="s1">y</span><span class="s9">,</span><span class="s1"> target</span><span class="s9">.</span><span class="s1">x </span><span class="s9">-</span><span class="s1"> </span><span class="s8">this</span><span class="s9">.</span><span class="s1">x</span><span class="s9">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                        </span></span><span class="s8">this</span><span class="s9">.</span><span class="s1">x </span><span class="s9">+=</span><span class="s1"> </span><span class="s13">Math</span><span class="s9">.</span><span class="s1">cos</span><span class="s9">(</span><span class="s1">angle</span><span class="s9">)</span><span class="s1"> </span><span class="s9">*</span><span class="s1"> </span><span class="s14">3</span><span class="s9">;</span><span class="s1"> </span><span class="s8">this</span><span class="s9">.</span><span class="s1">y </span><span class="s9">+=</span><span class="s1"> </span><span class="s13">Math</span><span class="s9">.</span><span class="s1">sin</span><span class="s9">(</span><span class="s1">angle</span><span class="s9">)</span><span class="s1"> </span><span class="s9">*</span><span class="s1"> </span><span class="s14">3</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                        </span></span><span class="s8">if</span><span class="s9">(</span><span class="s13">Math</span><span class="s9">.</span><span class="s1">hypot</span><span class="s9">(</span><span class="s8">this</span><span class="s9">.</span><span class="s1">x </span><span class="s9">-</span><span class="s1"> target</span><span class="s9">.</span><span class="s1">x</span><span class="s9">,</span><span class="s1"> </span><span class="s8">this</span><span class="s9">.</span><span class="s1">y </span><span class="s9">-</span><span class="s1"> target</span><span class="s9">.</span><span class="s1">y</span><span class="s9">)</span><span class="s1"> </span><span class="s9">&lt;</span><span class="s1"> </span><span class="s14">20</span><span class="s9">)</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                            </span>items</span><span class="s9">.</span><span class="s1">splice</span><span class="s9">(</span><span class="s1">items</span><span class="s9">.</span><span class="s1">indexOf</span><span class="s9">(</span><span class="s1">target</span><span class="s9">),</span><span class="s1"> </span><span class="s14">1</span><span class="s9">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                            </span></span><span class="s8">return</span><span class="s1"> </span><span class="s8">true</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                        </span></span><span class="s9">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span></span><span class="s9">}</span><span class="s1"> </span><span class="s8">else</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                        </span></span><span class="s8">this</span><span class="s9">.</span><span class="s1">x </span><span class="s9">+=</span><span class="s1"> </span><span class="s13">Math</span><span class="s9">.</span><span class="s1">cos</span><span class="s9">(</span><span class="s8">this</span><span class="s9">.</span><span class="s1">timer</span><span class="s9">)</span><span class="s1"> </span><span class="s9">*</span><span class="s1"> </span><span class="s14">2</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span></span><span class="s9">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s9">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">return</span><span class="s1"> </span><span class="s8">false</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s9">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>draw</span><span class="s9">()</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>ctx</span><span class="s9">.</span><span class="s1">fillStyle </span><span class="s9">=</span><span class="s1"> </span><span class="s8">this</span><span class="s9">.</span><span class="s1">type </span><span class="s9">===</span><span class="s1"> </span><span class="s11">'CHASER'</span><span class="s1"> </span><span class="s9">?</span><span class="s1"> </span><span class="s11">'#f87171'</span><span class="s1"> </span><span class="s9">:</span><span class="s1"> </span><span class="s11">'#ffffff'</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>ctx</span><span class="s9">.</span><span class="s1">beginPath</span><span class="s9">();</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">if</span><span class="s9">(</span><span class="s8">this</span><span class="s9">.</span><span class="s1">type </span><span class="s9">===</span><span class="s1"> </span><span class="s11">'CHASER'</span><span class="s9">)</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span>ctx</span><span class="s9">.</span><span class="s1">moveTo</span><span class="s9">(</span><span class="s8">this</span><span class="s9">.</span><span class="s1">x</span><span class="s9">,</span><span class="s1"> </span><span class="s8">this</span><span class="s9">.</span><span class="s1">y </span><span class="s9">-</span><span class="s1"> </span><span class="s14">12</span><span class="s9">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span>ctx</span><span class="s9">.</span><span class="s1">lineTo</span><span class="s9">(</span><span class="s8">this</span><span class="s9">.</span><span class="s1">x </span><span class="s9">+</span><span class="s1"> </span><span class="s14">10</span><span class="s9">,</span><span class="s1"> </span><span class="s8">this</span><span class="s9">.</span><span class="s1">y </span><span class="s9">+</span><span class="s1"> </span><span class="s14">10</span><span class="s9">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span>ctx</span><span class="s9">.</span><span class="s1">lineTo</span><span class="s9">(</span><span class="s8">this</span><span class="s9">.</span><span class="s1">x </span><span class="s9">-</span><span class="s1"> </span><span class="s14">10</span><span class="s9">,</span><span class="s1"> </span><span class="s8">this</span><span class="s9">.</span><span class="s1">y </span><span class="s9">+</span><span class="s1"> </span><span class="s14">10</span><span class="s9">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s9">}</span><span class="s1"> </span><span class="s8">else</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span>ctx</span><span class="s9">.</span><span class="s1">rect</span><span class="s9">(</span><span class="s8">this</span><span class="s9">.</span><span class="s1">x </span><span class="s9">-</span><span class="s1"> </span><span class="s14">10</span><span class="s9">,</span><span class="s1"> </span><span class="s8">this</span><span class="s9">.</span><span class="s1">y </span><span class="s9">-</span><span class="s1"> </span><span class="s14">10</span><span class="s9">,</span><span class="s1"> </span><span class="s14">20</span><span class="s9">,</span><span class="s1"> </span><span class="s14">20</span><span class="s9">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s9">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>ctx</span><span class="s9">.</span><span class="s1">fill</span><span class="s9">();</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s9">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s9">}</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">class</span><span class="s1"> </span><span class="s13">Item</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">constructor</span><span class="s9">()</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">const</span><span class="s1"> angle </span><span class="s9">=</span><span class="s1"> </span><span class="s13">Math</span><span class="s9">.</span><span class="s1">random</span><span class="s9">()</span><span class="s1"> </span><span class="s9">*</span><span class="s1"> </span><span class="s13">Math</span><span class="s9">.</span><span class="s13">PI</span><span class="s1"> </span><span class="s9">*</span><span class="s1"> </span><span class="s14">2</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">const</span><span class="s1"> r </span><span class="s9">=</span><span class="s1"> </span><span class="s13">Math</span><span class="s9">.</span><span class="s1">random</span><span class="s9">()</span><span class="s1"> </span><span class="s9">*</span><span class="s1"> </span><span class="s9">(</span><span class="s1">safeZone</span><span class="s9">.</span><span class="s1">radius </span><span class="s9">*</span><span class="s1"> </span><span class="s14">0.8</span><span class="s9">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">this</span><span class="s9">.</span><span class="s1">x </span><span class="s9">=</span><span class="s1"> safeZone</span><span class="s9">.</span><span class="s1">x </span><span class="s9">+</span><span class="s1"> </span><span class="s13">Math</span><span class="s9">.</span><span class="s1">cos</span><span class="s9">(</span><span class="s1">angle</span><span class="s9">)</span><span class="s1"> </span><span class="s9">*</span><span class="s1"> r</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">this</span><span class="s9">.</span><span class="s1">y </span><span class="s9">=</span><span class="s1"> safeZone</span><span class="s9">.</span><span class="s1">y </span><span class="s9">+</span><span class="s1"> </span><span class="s13">Math</span><span class="s9">.</span><span class="s1">sin</span><span class="s9">(</span><span class="s1">angle</span><span class="s9">)</span><span class="s1"> </span><span class="s9">*</span><span class="s1"> r</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">this</span><span class="s9">.</span><span class="s1">type </span><span class="s9">=</span><span class="s1"> </span><span class="s13">Math</span><span class="s9">.</span><span class="s1">random</span><span class="s9">()</span><span class="s1"> </span><span class="s9">&gt;</span><span class="s1"> </span><span class="s14">0.3</span><span class="s1"> </span><span class="s9">?</span><span class="s1"> </span><span class="s11">'COIN'</span><span class="s1"> </span><span class="s9">:</span><span class="s1"> </span><span class="s11">'HP'</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s9">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>draw</span><span class="s9">()</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>ctx</span><span class="s9">.</span><span class="s1">fillStyle </span><span class="s9">=</span><span class="s1"> </span><span class="s8">this</span><span class="s9">.</span><span class="s1">type </span><span class="s9">===</span><span class="s1"> </span><span class="s11">'COIN'</span><span class="s1"> </span><span class="s9">?</span><span class="s1"> </span><span class="s11">'#fbbf24'</span><span class="s1"> </span><span class="s9">:</span><span class="s1"> </span><span class="s11">'#22d3ee'</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>ctx</span><span class="s9">.</span><span class="s1">shadowBlur </span><span class="s9">=</span><span class="s1"> </span><span class="s14">10</span><span class="s9">;</span><span class="s1"> ctx</span><span class="s9">.</span><span class="s1">shadowColor </span><span class="s9">=</span><span class="s1"> ctx</span><span class="s9">.</span><span class="s1">fillStyle</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>ctx</span><span class="s9">.</span><span class="s1">beginPath</span><span class="s9">();</span><span class="s1"> ctx</span><span class="s9">.</span><span class="s1">arc</span><span class="s9">(</span><span class="s8">this</span><span class="s9">.</span><span class="s1">x</span><span class="s9">,</span><span class="s1"> </span><span class="s8">this</span><span class="s9">.</span><span class="s1">y</span><span class="s9">,</span><span class="s1"> </span><span class="s14">8</span><span class="s9">,</span><span class="s1"> </span><span class="s14">0</span><span class="s9">,</span><span class="s1"> </span><span class="s13">Math</span><span class="s9">.</span><span class="s13">PI</span><span class="s1"> </span><span class="s9">*</span><span class="s1"> </span><span class="s14">2</span><span class="s9">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>ctx</span><span class="s9">.</span><span class="s1">fill</span><span class="s9">();</span><span class="s1"> ctx</span><span class="s9">.</span><span class="s1">shadowBlur </span><span class="s9">=</span><span class="s1"> </span><span class="s14">0</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s9">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s9">}</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">function</span><span class="s1"> startGame</span><span class="s9">()</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>document</span><span class="s9">.</span><span class="s1">getElementById</span><span class="s9">(</span><span class="s11">'loginScreen'</span><span class="s9">).</span><span class="s1">classList</span><span class="s9">.</span><span class="s1">add</span><span class="s9">(</span><span class="s11">'hidden'</span><span class="s9">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>document</span><span class="s9">.</span><span class="s1">getElementById</span><span class="s9">(</span><span class="s11">'gameScreen'</span><span class="s9">).</span><span class="s1">style</span><span class="s9">.</span><span class="s1">display </span><span class="s9">=</span><span class="s1"> </span><span class="s11">'block'</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>init</span><span class="s9">();</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>gameActive </span><span class="s9">=</span><span class="s1"> </span><span class="s8">true</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>lastTime </span><span class="s9">=</span><span class="s1"> performance</span><span class="s9">.</span><span class="s1">now</span><span class="s9">();</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>requestAnimationFrame</span><span class="s9">(</span><span class="s1">gameLoop</span><span class="s9">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s9">}</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">function</span><span class="s1"> init</span><span class="s9">()</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>canvas</span><span class="s9">.</span><span class="s1">width </span><span class="s9">=</span><span class="s1"> window</span><span class="s9">.</span><span class="s1">innerWidth</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>canvas</span><span class="s9">.</span><span class="s1">height </span><span class="s9">=</span><span class="s1"> window</span><span class="s9">.</span><span class="s1">innerHeight</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>safeZone</span><span class="s9">.</span><span class="s1">x </span><span class="s9">=</span><span class="s1"> canvas</span><span class="s9">.</span><span class="s1">width </span><span class="s9">/</span><span class="s1"> </span><span class="s14">2</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>safeZone</span><span class="s9">.</span><span class="s1">y </span><span class="s9">=</span><span class="s1"> canvas</span><span class="s9">.</span><span class="s1">height </span><span class="s9">/</span><span class="s1"> </span><span class="s14">2</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>safeZone</span><span class="s9">.</span><span class="s1">maxRadius </span><span class="s9">=</span><span class="s1"> </span><span class="s9">(</span><span class="s13">Math</span><span class="s9">.</span><span class="s1">min</span><span class="s9">(</span><span class="s1">canvas</span><span class="s9">.</span><span class="s1">width</span><span class="s9">,</span><span class="s1"> canvas</span><span class="s9">.</span><span class="s1">height</span><span class="s9">)</span><span class="s1"> </span><span class="s9">/</span><span class="s1"> </span><span class="s14">2</span><span class="s9">)</span><span class="s1"> </span><span class="s9">-</span><span class="s1"> </span><span class="s14">30</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>safeZone</span><span class="s9">.</span><span class="s1">radius </span><span class="s9">=</span><span class="s1"> safeZone</span><span class="s9">.</span><span class="s1">maxRadius</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>player</span><span class="s9">.</span><span class="s1">x </span><span class="s9">=</span><span class="s1"> safeZone</span><span class="s9">.</span><span class="s1">x</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>player</span><span class="s9">.</span><span class="s1">y </span><span class="s9">=</span><span class="s1"> safeZone</span><span class="s9">.</span><span class="s1">y</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>player</span><span class="s9">.</span><span class="s1">targetX </span><span class="s9">=</span><span class="s1"> player</span><span class="s9">.</span><span class="s1">x</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>player</span><span class="s9">.</span><span class="s1">targetY </span><span class="s9">=</span><span class="s1"> player</span><span class="s9">.</span><span class="s1">y</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s9">}</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">function</span><span class="s1"> gameLoop</span><span class="s9">(</span><span class="s1">time</span><span class="s9">)</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">if</span><span class="s9">(!</span><span class="s1">gameActive</span><span class="s9">)</span><span class="s1"> </span><span class="s8">return</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">const</span><span class="s1"> dt </span><span class="s9">=</span><span class="s1"> </span><span class="s9">(</span><span class="s1">time </span><span class="s9">-</span><span class="s1"> lastTime</span><span class="s9">)</span><span class="s1"> </span><span class="s9">/</span><span class="s1"> </span><span class="s14">1000</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>lastTime </span><span class="s9">=</span><span class="s1"> time</span><span class="s9">;</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>ctx</span><span class="s9">.</span><span class="s1">fillStyle </span><span class="s9">=</span><span class="s1"> </span><span class="s11">'#050505'</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>ctx</span><span class="s9">.</span><span class="s1">fillRect</span><span class="s9">(</span><span class="s14">0</span><span class="s9">,</span><span class="s1"> </span><span class="s14">0</span><span class="s9">,</span><span class="s1"> canvas</span><span class="s9">.</span><span class="s1">width</span><span class="s9">,</span><span class="s1"> canvas</span><span class="s9">.</span><span class="s1">height</span><span class="s9">);</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>safeZone</span><span class="s9">.</span><span class="s1">radius </span><span class="s9">-=</span><span class="s1"> </span><span class="s9">(</span><span class="s14">5</span><span class="s1"> </span><span class="s9">+</span><span class="s1"> level</span><span class="s9">)</span><span class="s1"> </span><span class="s9">*</span><span class="s1"> dt</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">if</span><span class="s9">(</span><span class="s1">safeZone</span><span class="s9">.</span><span class="s1">radius </span><span class="s9">&lt;</span><span class="s1"> safeZone</span><span class="s9">.</span><span class="s1">minRadius</span><span class="s9">)</span><span class="s1"> safeZone</span><span class="s9">.</span><span class="s1">radius </span><span class="s9">=</span><span class="s1"> safeZone</span><span class="s9">.</span><span class="s1">minRadius</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>ctx</span><span class="s9">.</span><span class="s1">beginPath</span><span class="s9">();</span><span class="s1"> ctx</span><span class="s9">.</span><span class="s1">arc</span><span class="s9">(</span><span class="s1">safeZone</span><span class="s9">.</span><span class="s1">x</span><span class="s9">,</span><span class="s1"> safeZone</span><span class="s9">.</span><span class="s1">y</span><span class="s9">,</span><span class="s1"> safeZone</span><span class="s9">.</span><span class="s1">radius</span><span class="s9">,</span><span class="s1"> </span><span class="s14">0</span><span class="s9">,</span><span class="s1"> </span><span class="s13">Math</span><span class="s9">.</span><span class="s13">PI</span><span class="s1"> </span><span class="s9">*</span><span class="s1"> </span><span class="s14">2</span><span class="s9">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>ctx</span><span class="s9">.</span><span class="s1">strokeStyle </span><span class="s9">=</span><span class="s1"> </span><span class="s11">'#00f2ff'</span><span class="s9">;</span><span class="s1"> ctx</span><span class="s9">.</span><span class="s1">lineWidth </span><span class="s9">=</span><span class="s1"> </span><span class="s14">2</span><span class="s9">;</span><span class="s1"> ctx</span><span class="s9">.</span><span class="s1">stroke</span><span class="s9">();</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>ctx</span><span class="s9">.</span><span class="s1">fillStyle </span><span class="s9">=</span><span class="s1"> </span><span class="s11">'rgba(0, 242, 255, 0.05)'</span><span class="s9">;</span><span class="s1"> ctx</span><span class="s9">.</span><span class="s1">fill</span><span class="s9">();</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>player</span><span class="s9">.</span><span class="s1">x </span><span class="s9">+=</span><span class="s1"> </span><span class="s9">(</span><span class="s1">player</span><span class="s9">.</span><span class="s1">targetX </span><span class="s9">-</span><span class="s1"> player</span><span class="s9">.</span><span class="s1">x</span><span class="s9">)</span><span class="s1"> </span><span class="s9">*</span><span class="s1"> </span><span class="s14">0.12</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>player</span><span class="s9">.</span><span class="s1">y </span><span class="s9">+=</span><span class="s1"> </span><span class="s9">(</span><span class="s1">player</span><span class="s9">.</span><span class="s1">targetY </span><span class="s9">-</span><span class="s1"> player</span><span class="s9">.</span><span class="s1">y</span><span class="s9">)</span><span class="s1"> </span><span class="s9">*</span><span class="s1"> </span><span class="s14">0.12</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">if</span><span class="s9">(</span><span class="s13">Math</span><span class="s9">.</span><span class="s1">hypot</span><span class="s9">(</span><span class="s1">player</span><span class="s9">.</span><span class="s1">x </span><span class="s9">-</span><span class="s1"> safeZone</span><span class="s9">.</span><span class="s1">x</span><span class="s9">,</span><span class="s1"> player</span><span class="s9">.</span><span class="s1">y </span><span class="s9">-</span><span class="s1"> safeZone</span><span class="s9">.</span><span class="s1">y</span><span class="s9">)</span><span class="s1"> </span><span class="s9">+</span><span class="s1"> player</span><span class="s9">.</span><span class="s1">radius </span><span class="s9">&gt;</span><span class="s1"> safeZone</span><span class="s9">.</span><span class="s1">radius</span><span class="s9">)</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>health </span><span class="s9">-=</span><span class="s1"> </span><span class="s14">15</span><span class="s1"> </span><span class="s9">*</span><span class="s1"> dt</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s9">}</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>ctx</span><span class="s9">.</span><span class="s1">fillStyle </span><span class="s9">=</span><span class="s1"> </span><span class="s11">'#ff00ff'</span><span class="s9">;</span><span class="s1"> ctx</span><span class="s9">.</span><span class="s1">shadowBlur </span><span class="s9">=</span><span class="s1"> </span><span class="s14">15</span><span class="s9">;</span><span class="s1"> ctx</span><span class="s9">.</span><span class="s1">shadowColor </span><span class="s9">=</span><span class="s1"> </span><span class="s11">'#ff00ff'</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>ctx</span><span class="s9">.</span><span class="s1">beginPath</span><span class="s9">();</span><span class="s1"> ctx</span><span class="s9">.</span><span class="s1">arc</span><span class="s9">(</span><span class="s1">player</span><span class="s9">.</span><span class="s1">x</span><span class="s9">,</span><span class="s1"> player</span><span class="s9">.</span><span class="s1">y</span><span class="s9">,</span><span class="s1"> player</span><span class="s9">.</span><span class="s1">radius</span><span class="s9">,</span><span class="s1"> </span><span class="s14">0</span><span class="s9">,</span><span class="s1"> </span><span class="s13">Math</span><span class="s9">.</span><span class="s13">PI</span><span class="s1"> </span><span class="s9">*</span><span class="s1"> </span><span class="s14">2</span><span class="s9">);</span><span class="s1"> ctx</span><span class="s9">.</span><span class="s1">fill</span><span class="s9">();</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>ctx</span><span class="s9">.</span><span class="s1">shadowBlur </span><span class="s9">=</span><span class="s1"> </span><span class="s14">0</span><span class="s9">;</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>bulletTimer </span><span class="s9">+=</span><span class="s1"> dt</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">if</span><span class="s9">(</span><span class="s1">bulletTimer </span><span class="s9">&gt;</span><span class="s1"> </span><span class="s14">1.2</span><span class="s1"> </span><span class="s9">/</span><span class="s1"> </span><span class="s9">(</span><span class="s14">1</span><span class="s1"> </span><span class="s9">+</span><span class="s1"> level </span><span class="s9">*</span><span class="s1"> </span><span class="s14">0.1</span><span class="s9">))</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">const</span><span class="s1"> a </span><span class="s9">=</span><span class="s1"> </span><span class="s13">Math</span><span class="s9">.</span><span class="s1">random</span><span class="s9">()</span><span class="s1"> </span><span class="s9">*</span><span class="s1"> </span><span class="s13">Math</span><span class="s9">.</span><span class="s13">PI</span><span class="s1"> </span><span class="s9">*</span><span class="s1"> </span><span class="s14">2</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>bullets</span><span class="s9">.</span><span class="s1">push</span><span class="s9">(</span><span class="s8">new</span><span class="s1"> </span><span class="s13">Bullet</span><span class="s9">(</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span>safeZone</span><span class="s9">.</span><span class="s1">x </span><span class="s9">+</span><span class="s1"> </span><span class="s13">Math</span><span class="s9">.</span><span class="s1">cos</span><span class="s9">(</span><span class="s1">a</span><span class="s9">)</span><span class="s1"> </span><span class="s9">*</span><span class="s1"> canvas</span><span class="s9">.</span><span class="s1">width</span><span class="s9">,</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span>safeZone</span><span class="s9">.</span><span class="s1">y </span><span class="s9">+</span><span class="s1"> </span><span class="s13">Math</span><span class="s9">.</span><span class="s1">sin</span><span class="s9">(</span><span class="s1">a</span><span class="s9">)</span><span class="s1"> </span><span class="s9">*</span><span class="s1"> canvas</span><span class="s9">.</span><span class="s1">height</span><span class="s9">,</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span></span><span class="s13">Math</span><span class="s9">.</span><span class="s1">atan2</span><span class="s9">(</span><span class="s1">player</span><span class="s9">.</span><span class="s1">y </span><span class="s9">-</span><span class="s1"> </span><span class="s9">(</span><span class="s1">safeZone</span><span class="s9">.</span><span class="s1">y </span><span class="s9">+</span><span class="s1"> </span><span class="s13">Math</span><span class="s9">.</span><span class="s1">sin</span><span class="s9">(</span><span class="s1">a</span><span class="s9">)</span><span class="s1"> </span><span class="s9">*</span><span class="s1"> canvas</span><span class="s9">.</span><span class="s1">height</span><span class="s9">),</span><span class="s1"> player</span><span class="s9">.</span><span class="s1">x </span><span class="s9">-</span><span class="s1"> </span><span class="s9">(</span><span class="s1">safeZone</span><span class="s9">.</span><span class="s1">x </span><span class="s9">+</span><span class="s1"> </span><span class="s13">Math</span><span class="s9">.</span><span class="s1">cos</span><span class="s9">(</span><span class="s1">a</span><span class="s9">)</span><span class="s1"> </span><span class="s9">*</span><span class="s1"> canvas</span><span class="s9">.</span><span class="s1">width</span><span class="s9">)),</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span></span><span class="s14">2</span><span class="s1"> </span><span class="s9">+</span><span class="s1"> level </span><span class="s9">*</span><span class="s1"> </span><span class="s14">0.5</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s9">));</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>bulletTimer </span><span class="s9">=</span><span class="s1"> </span><span class="s14">0</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s9">}</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>enemyTimer </span><span class="s9">+=</span><span class="s1"> dt</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">if</span><span class="s9">(</span><span class="s1">enemyTimer </span><span class="s9">&gt;</span><span class="s1"> </span><span class="s14">4</span><span class="s1"> </span><span class="s9">/</span><span class="s1"> </span><span class="s9">(</span><span class="s14">1</span><span class="s1"> </span><span class="s9">+</span><span class="s1"> level </span><span class="s9">*</span><span class="s1"> </span><span class="s14">0.2</span><span class="s9">))</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>enemies</span><span class="s9">.</span><span class="s1">push</span><span class="s9">(</span><span class="s8">new</span><span class="s1"> </span><span class="s13">Enemy</span><span class="s9">(</span><span class="s13">Math</span><span class="s9">.</span><span class="s1">random</span><span class="s9">()</span><span class="s1"> </span><span class="s9">&gt;</span><span class="s1"> </span><span class="s14">0.5</span><span class="s1"> </span><span class="s9">?</span><span class="s1"> </span><span class="s11">'CHASER'</span><span class="s1"> </span><span class="s9">:</span><span class="s1"> </span><span class="s11">'THIEF'</span><span class="s9">));</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>enemyTimer </span><span class="s9">=</span><span class="s1"> </span><span class="s14">0</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s9">}</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">if</span><span class="s9">(</span><span class="s13">Math</span><span class="s9">.</span><span class="s1">random</span><span class="s9">()</span><span class="s1"> </span><span class="s9">&lt;</span><span class="s1"> </span><span class="s14">0.01</span><span class="s1"> </span><span class="s9">&amp;&amp;</span><span class="s1"> items</span><span class="s9">.</span><span class="s1">length </span><span class="s9">&lt;</span><span class="s1"> </span><span class="s14">5</span><span class="s9">)</span><span class="s1"> items</span><span class="s9">.</span><span class="s1">push</span><span class="s9">(</span><span class="s8">new</span><span class="s1"> </span><span class="s13">Item</span><span class="s9">());</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>bullets</span><span class="s9">.</span><span class="s1">forEach</span><span class="s9">((</span><span class="s1">b</span><span class="s9">,</span><span class="s1"> i</span><span class="s9">)</span><span class="s1"> </span><span class="s9">=&gt;</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>b</span><span class="s9">.</span><span class="s1">update</span><span class="s9">();</span><span class="s1"> b</span><span class="s9">.</span><span class="s1">draw</span><span class="s9">();</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">if</span><span class="s9">(</span><span class="s13">Math</span><span class="s9">.</span><span class="s1">hypot</span><span class="s9">(</span><span class="s1">b</span><span class="s9">.</span><span class="s1">x </span><span class="s9">-</span><span class="s1"> player</span><span class="s9">.</span><span class="s1">x</span><span class="s9">,</span><span class="s1"> b</span><span class="s9">.</span><span class="s1">y </span><span class="s9">-</span><span class="s1"> player</span><span class="s9">.</span><span class="s1">y</span><span class="s9">)</span><span class="s1"> </span><span class="s9">&lt;</span><span class="s1"> player</span><span class="s9">.</span><span class="s1">radius </span><span class="s9">+</span><span class="s1"> </span><span class="s14">5</span><span class="s9">)</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span>health </span><span class="s9">-=</span><span class="s1"> </span><span class="s14">10</span><span class="s9">;</span><span class="s1"> bullets</span><span class="s9">.</span><span class="s1">splice</span><span class="s9">(</span><span class="s1">i</span><span class="s9">,</span><span class="s1"> </span><span class="s14">1</span><span class="s9">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s9">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s9">});</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>enemies</span><span class="s9">.</span><span class="s1">forEach</span><span class="s9">((</span><span class="s1">e</span><span class="s9">,</span><span class="s1"> i</span><span class="s9">)</span><span class="s1"> </span><span class="s9">=&gt;</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">if</span><span class="s9">(</span><span class="s1">e</span><span class="s9">.</span><span class="s1">update</span><span class="s9">(</span><span class="s1">dt</span><span class="s9">))</span><span class="s1"> enemies</span><span class="s9">.</span><span class="s1">splice</span><span class="s9">(</span><span class="s1">i</span><span class="s9">,</span><span class="s1"> </span><span class="s14">1</span><span class="s9">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">else</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span>e</span><span class="s9">.</span><span class="s1">draw</span><span class="s9">();</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span></span><span class="s8">if</span><span class="s9">(</span><span class="s13">Math</span><span class="s9">.</span><span class="s1">hypot</span><span class="s9">(</span><span class="s1">e</span><span class="s9">.</span><span class="s1">x </span><span class="s9">-</span><span class="s1"> player</span><span class="s9">.</span><span class="s1">x</span><span class="s9">,</span><span class="s1"> e</span><span class="s9">.</span><span class="s1">y </span><span class="s9">-</span><span class="s1"> player</span><span class="s9">.</span><span class="s1">y</span><span class="s9">)</span><span class="s1"> </span><span class="s9">&lt;</span><span class="s1"> player</span><span class="s9">.</span><span class="s1">radius </span><span class="s9">+</span><span class="s1"> </span><span class="s14">12</span><span class="s9">)</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                        </span>health </span><span class="s9">-=</span><span class="s1"> </span><span class="s14">20</span><span class="s9">;</span><span class="s1"> enemies</span><span class="s9">.</span><span class="s1">splice</span><span class="s9">(</span><span class="s1">i</span><span class="s9">,</span><span class="s1"> </span><span class="s14">1</span><span class="s9">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span></span><span class="s9">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s9">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s9">});</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>items</span><span class="s9">.</span><span class="s1">forEach</span><span class="s9">((</span><span class="s1">it</span><span class="s9">,</span><span class="s1"> i</span><span class="s9">)</span><span class="s1"> </span><span class="s9">=&gt;</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>it</span><span class="s9">.</span><span class="s1">draw</span><span class="s9">();</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">if</span><span class="s9">(</span><span class="s13">Math</span><span class="s9">.</span><span class="s1">hypot</span><span class="s9">(</span><span class="s1">it</span><span class="s9">.</span><span class="s1">x </span><span class="s9">-</span><span class="s1"> player</span><span class="s9">.</span><span class="s1">x</span><span class="s9">,</span><span class="s1"> it</span><span class="s9">.</span><span class="s1">y </span><span class="s9">-</span><span class="s1"> player</span><span class="s9">.</span><span class="s1">y</span><span class="s9">)</span><span class="s1"> </span><span class="s9">&lt;</span><span class="s1"> player</span><span class="s9">.</span><span class="s1">radius </span><span class="s9">+</span><span class="s1"> </span><span class="s14">15</span><span class="s9">)</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span></span><span class="s8">if</span><span class="s9">(</span><span class="s1">it</span><span class="s9">.</span><span class="s1">type </span><span class="s9">===</span><span class="s1"> </span><span class="s11">'COIN'</span><span class="s9">)</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                        </span>score </span><span class="s9">+=</span><span class="s1"> </span><span class="s14">500</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                        </span>safeZone</span><span class="s9">.</span><span class="s1">radius </span><span class="s9">=</span><span class="s1"> </span><span class="s13">Math</span><span class="s9">.</span><span class="s1">min</span><span class="s9">(</span><span class="s1">safeZone</span><span class="s9">.</span><span class="s1">maxRadius</span><span class="s9">,</span><span class="s1"> safeZone</span><span class="s9">.</span><span class="s1">radius </span><span class="s9">+</span><span class="s1"> </span><span class="s14">50</span><span class="s9">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span></span><span class="s9">}</span><span class="s1"> </span><span class="s8">else</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                        </span>health </span><span class="s9">=</span><span class="s1"> </span><span class="s13">Math</span><span class="s9">.</span><span class="s1">min</span><span class="s9">(</span><span class="s14">100</span><span class="s9">,</span><span class="s1"> health </span><span class="s9">+</span><span class="s1"> </span><span class="s14">20</span><span class="s9">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span></span><span class="s9">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span>items</span><span class="s9">.</span><span class="s1">splice</span><span class="s9">(</span><span class="s1">i</span><span class="s9">,</span><span class="s1"> </span><span class="s14">1</span><span class="s9">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s9">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s9">});</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>score </span><span class="s9">+=</span><span class="s1"> </span><span class="s14">0.1</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>level </span><span class="s9">=</span><span class="s1"> </span><span class="s13">Math</span><span class="s9">.</span><span class="s1">floor</span><span class="s9">(</span><span class="s1">score </span><span class="s9">/</span><span class="s1"> </span><span class="s14">2000</span><span class="s9">)</span><span class="s1"> </span><span class="s9">+</span><span class="s1"> </span><span class="s14">1</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>document</span><span class="s9">.</span><span class="s1">getElementById</span><span class="s9">(</span><span class="s11">'scoreVal'</span><span class="s9">).</span><span class="s1">innerText </span><span class="s9">=</span><span class="s1"> </span><span class="s13">Math</span><span class="s9">.</span><span class="s1">floor</span><span class="s9">(</span><span class="s1">score</span><span class="s9">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>document</span><span class="s9">.</span><span class="s1">getElementById</span><span class="s9">(</span><span class="s11">'healthVal'</span><span class="s9">).</span><span class="s1">innerText </span><span class="s9">=</span><span class="s1"> </span><span class="s13">Math</span><span class="s9">.</span><span class="s1">max</span><span class="s9">(</span><span class="s14">0</span><span class="s9">,</span><span class="s1"> </span><span class="s13">Math</span><span class="s9">.</span><span class="s1">ceil</span><span class="s9">(</span><span class="s1">health</span><span class="s9">));</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>document</span><span class="s9">.</span><span class="s1">getElementById</span><span class="s9">(</span><span class="s11">'hpBar'</span><span class="s9">).</span><span class="s1">style</span><span class="s9">.</span><span class="s1">width </span><span class="s9">=</span><span class="s1"> </span><span class="s11">`</span><span class="s9">${</span><span class="s1">health</span><span class="s9">}</span><span class="s11">%`</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>document</span><span class="s9">.</span><span class="s1">getElementById</span><span class="s9">(</span><span class="s11">'levelVal'</span><span class="s9">).</span><span class="s1">innerText </span><span class="s9">=</span><span class="s1"> level</span><span class="s9">;</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">if</span><span class="s9">(</span><span class="s1">health </span><span class="s9">&lt;=</span><span class="s1"> </span><span class="s14">0</span><span class="s9">)</span><span class="s1"> endGame</span><span class="s9">();</span><span class="s1"> </span><span class="s8">else</span><span class="s1"> requestAnimationFrame</span><span class="s9">(</span><span class="s1">gameLoop</span><span class="s9">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s9">}</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">async</span><span class="s1"> </span><span class="s8">function</span><span class="s1"> endGame</span><span class="s9">()</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>gameActive </span><span class="s9">=</span><span class="s1"> </span><span class="s8">false</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>document</span><span class="s9">.</span><span class="s1">getElementById</span><span class="s9">(</span><span class="s11">'gameOver'</span><span class="s9">).</span><span class="s1">classList</span><span class="s9">.</span><span class="s1">remove</span><span class="s9">(</span><span class="s11">'hidden'</span><span class="s9">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>document</span><span class="s9">.</span><span class="s1">getElementById</span><span class="s9">(</span><span class="s11">'finalScore'</span><span class="s9">).</span><span class="s1">innerText </span><span class="s9">=</span><span class="s1"> </span><span class="s13">Math</span><span class="s9">.</span><span class="s1">floor</span><span class="s9">(</span><span class="s1">score</span><span class="s9">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">const</span><span class="s1"> statusEl </span><span class="s9">=</span><span class="s1"> document</span><span class="s9">.</span><span class="s1">getElementById</span><span class="s9">(</span><span class="s11">'saveStatus'</span><span class="s9">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">const</span><span class="s1"> res </span><span class="s9">=</span><span class="s1"> </span><span class="s8">await</span><span class="s1"> apiCall</span><span class="s9">({</span><span class="s1"> action</span><span class="s9">:</span><span class="s1"> </span><span class="s11">'saveScore'</span><span class="s9">,</span><span class="s1"> username</span><span class="s9">:</span><span class="s1"> currentUser</span><span class="s9">,</span><span class="s1"> score</span><span class="s9">:</span><span class="s1"> </span><span class="s13">Math</span><span class="s9">.</span><span class="s1">floor</span><span class="s9">(</span><span class="s1">score</span><span class="s9">)</span><span class="s1"> </span><span class="s9">});</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">if</span><span class="s9">(</span><span class="s1">res</span><span class="s9">.</span><span class="s1">status </span><span class="s9">===</span><span class="s1"> </span><span class="s11">'success'</span><span class="s9">)</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>statusEl</span><span class="s9">.</span><span class="s1">innerText </span><span class="s9">=</span><span class="s1"> res</span><span class="s9">.</span><span class="s1">updated </span><span class="s9">?</span><span class="s1"> </span><span class="s11">"</span><span class="s15">新紀錄已同步！</span><span class="s11">"</span><span class="s1"> </span><span class="s9">:</span><span class="s1"> </span><span class="s11">"</span><span class="s15">同步完成</span><span class="s11">"</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">if</span><span class="s9">(</span><span class="s1">res</span><span class="s9">.</span><span class="s1">updated</span><span class="s9">)</span><span class="s1"> document</span><span class="s9">.</span><span class="s1">getElementById</span><span class="s9">(</span><span class="s11">'hiScoreVal'</span><span class="s9">).</span><span class="s1">innerText </span><span class="s9">=</span><span class="s1"> </span><span class="s13">Math</span><span class="s9">.</span><span class="s1">floor</span><span class="s9">(</span><span class="s1">score</span><span class="s9">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s9">}</span><span class="s1"> </span><span class="s8">else</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>statusEl</span><span class="s9">.</span><span class="s1">innerText </span><span class="s9">=</span><span class="s1"> </span><span class="s11">"</span><span class="s15">雲端同步失敗</span><span class="s11">"</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s9">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s9">}</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span>document</span><span class="s9">.</span><span class="s1">getElementById</span><span class="s9">(</span><span class="s11">'restartBtn'</span><span class="s9">).</span><span class="s1">onclick </span><span class="s9">=</span><span class="s1"> </span><span class="s9">()</span><span class="s1"> </span><span class="s9">=&gt;</span><span class="s1"> </span><span class="s9">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>health </span><span class="s9">=</span><span class="s1"> </span><span class="s14">100</span><span class="s9">;</span><span class="s1"> score </span><span class="s9">=</span><span class="s1"> </span><span class="s14">0</span><span class="s9">;</span><span class="s1"> level </span><span class="s9">=</span><span class="s1"> </span><span class="s14">1</span><span class="s9">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>bullets </span><span class="s9">=</span><span class="s1"> </span><span class="s9">[];</span><span class="s1"> enemies </span><span class="s9">=</span><span class="s1"> </span><span class="s9">[];</span><span class="s1"> items </span><span class="s9">=</span><span class="s1"> </span><span class="s9">[];</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>document</span><span class="s9">.</span><span class="s1">getElementById</span><span class="s9">(</span><span class="s11">'gameOver'</span><span class="s9">).</span><span class="s1">classList</span><span class="s9">.</span><span class="s1">add</span><span class="s9">(</span><span class="s11">'hidden'</span><span class="s9">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>startGame</span><span class="s9">();</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s9">};</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span>window</span><span class="s9">.</span><span class="s1">onmousemove </span><span class="s9">=</span><span class="s1"> e </span><span class="s9">=&gt;</span><span class="s1"> </span><span class="s9">{</span><span class="s1"> player</span><span class="s9">.</span><span class="s1">targetX </span><span class="s9">=</span><span class="s1"> e</span><span class="s9">.</span><span class="s1">clientX</span><span class="s9">;</span><span class="s1"> player</span><span class="s9">.</span><span class="s1">targetY </span><span class="s9">=</span><span class="s1"> e</span><span class="s9">.</span><span class="s1">clientY</span><span class="s9">;</span><span class="s1"> </span><span class="s9">};</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span>window</span><span class="s9">.</span><span class="s1">addEventListener</span><span class="s9">(</span><span class="s11">'touchmove'</span><span class="s9">,</span><span class="s1"> e </span><span class="s9">=&gt;</span><span class="s1"> </span><span class="s9">{</span><span class="s1"><span class="Apple-converted-space"> </span></span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>e</span><span class="s9">.</span><span class="s1">preventDefault</span><span class="s9">();</span><span class="s1"><span class="Apple-converted-space"> </span></span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>player</span><span class="s9">.</span><span class="s1">targetX </span><span class="s9">=</span><span class="s1"> e</span><span class="s9">.</span><span class="s1">touches</span><span class="s9">[</span><span class="s14">0</span><span class="s9">].</span><span class="s1">clientX</span><span class="s9">;</span><span class="s1"><span class="Apple-converted-space"> </span></span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>player</span><span class="s9">.</span><span class="s1">targetY </span><span class="s9">=</span><span class="s1"> e</span><span class="s9">.</span><span class="s1">touches</span><span class="s9">[</span><span class="s14">0</span><span class="s9">].</span><span class="s1">clientY</span><span class="s9">;</span><span class="s1"><span class="Apple-converted-space"> </span></span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s9">},</span><span class="s1"> </span><span class="s9">{</span><span class="s1"> passive</span><span class="s9">:</span><span class="s1"> </span><span class="s8">false</span><span class="s1"> </span><span class="s9">});</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span>window</span><span class="s9">.</span><span class="s1">onresize </span><span class="s9">=</span><span class="s1"> init</span><span class="s9">;</span></p>
-<p class="p1"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;/</span><span class="s1">script</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s3">&lt;/</span><span class="s1">body</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s3">&lt;/</span><span class="s1">html</span><span class="s3">&gt;</span></p>
+
+    <div class="scanline-overlay"></div>
+
+    <!-- 登入與註冊介面 -->
+    <div id="loginScreen" class="flex flex-col items-center justify-center min-h-screen p-6 overflow-y-auto">
+        <div class="login-card mb-6">
+            <div class="text-center mb-6">
+                <h1 class="text-4xl font-black italic mb-1 tracking-tighter" style="text-shadow: 0 0 10px var(--neon-blue);">邊境生存戰</h1>
+                <p class="text-[9px] text-cyan-500 tracking-[0.3em] uppercase opacity-70">SYSTEM VERSION 2.1.0</p>
+            </div>
+
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-[10px] text-pink-500 uppercase tracking-widest mb-1 ml-1">Identity / 帳號</label>
+                    <input type="text" id="loginUser" placeholder="USER_ID" class="bg-white/5 border border-cyan-500/30 w-full px-4 py-2 outline-none focus:border-pink-500 transition-all text-sm">
+                </div>
+                <div>
+                    <label class="block text-[10px] text-pink-500 uppercase tracking-widest mb-1 ml-1">Access Key / 密碼</label>
+                    <input type="password" id="loginPass" placeholder="••••••••" class="bg-white/5 border border-cyan-500/30 w-full px-4 py-2 outline-none focus:border-pink-500 transition-all text-sm">
+                </div>
+                
+                <div id="loginMsg" class="text-red-400 text-[11px] text-center min-h-[1.5rem] font-bold"></div>
+                
+                <div class="grid grid-cols-2 gap-3">
+                    <button id="doLogin" class="btn-neon py-3 text-xs">登入系統</button>
+                    <button id="doRegister" class="btn-neon py-3 text-xs border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black hover:shadow-cyan-400">註冊帳號</button>
+                </div>
+            </div>
+
+            <!-- 敵人介紹區塊 -->
+            <div class="enemy-info">
+                <h3 class="text-yellow-400 font-bold mb-2 flex items-center gap-2">
+                    <span class="w-2 h-2 bg-yellow-400"></span> 作戰情報：敵對單位
+                </h3>
+                <div class="space-y-3">
+                    <div class="flex items-start gap-3">
+                        <div class="w-4 h-4 mt-1 bg-white rotate-45 flex-shrink-0"></div>
+                        <div>
+                            <p class="font-bold text-white text-[11px]">資源小偷 (THIEF)</p>
+                            <p class="text-gray-400 text-[10px]">專門竊取場上的金幣。畫面上最多同時出現 <span class="text-white font-bold">5</span> 個單位。若發現金幣被盜，請立即排除。</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <div class="w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-bottom-[14px] border-bottom-[#f87171] mt-1 flex-shrink-0"></div>
+                        <div>
+                            <p class="font-bold text-red-400 text-[11px]">追蹤單位 (CHASER)</p>
+                            <p class="text-gray-400 text-[10px]">具備導引功能，會持續鎖定玩家位置進行碰撞。威脅等級：高。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p class="text-[9px] text-gray-600 uppercase">Warning: Unauthenticated access is prohibited.</p>
+    </div>
+
+    <!-- 遊戲介面 -->
+    <div id="gameScreen">
+        <div class="game-ui p-5 absolute top-0 left-0 w-full flex justify-between pointer-events-none z-10">
+            <div class="stats-box bg-slate-900/80 p-4 border-l-4 border-cyan-400 backdrop-blur-md">
+                <div class="flex items-center gap-3">
+                    <div class="text-[10px] text-blue-400">USER: <span id="displayUsername" class="text-white">---</span></div>
+                    <div class="text-[10px] text-yellow-400">HI-SCORE: <span id="hiScoreVal" class="text-white font-bold">0</span></div>
+                </div>
+                <div class="text-2xl font-black mt-1 italic">HP <span id="healthVal">100</span>%</div>
+                <div class="w-48 h-1.5 bg-gray-800 mt-1 rounded-full overflow-hidden">
+                    <div id="hpBar" class="h-full bg-cyan-400 transition-all" style="width: 100%"></div>
+                </div>
+                <div id="shieldIndicator" class="text-[9px] text-cyan-300 mt-1 hidden font-bold">● 能量護盾已啟動</div>
+                <div id="effectContainer" class="flex gap-2 mt-2"></div>
+            </div>
+            <div class="text-right">
+                <div class="text-[10px] text-gray-500 italic">SCORE</div>
+                <div id="scoreVal" class="text-4xl font-black italic tracking-tighter">0</div>
+                <div class="text-[10px] text-cyan-500 font-bold">LV. <span id="levelVal">1</span></div>
+            </div>
+        </div>
+
+        <div id="levelUpText" class="level-up">LEVEL UP!</div>
+        <canvas id="gameCanvas"></canvas>
+
+        <!-- 結束介面 -->
+        <div id="gameOver" class="hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black/95 p-10 border-2 border-red-500 text-center z-[100] w-80">
+            <h1 class="text-3xl font-black mb-1 text-red-500 italic">SYSTEM FAILURE</h1>
+            <div id="newRecordBadge" class="hidden text-sm font-bold mb-4 text-yellow-400">★ NEW CLOUD RECORD ★</div>
+            <p id="saveStatus" class="text-[9px] text-gray-500 uppercase mb-4 italic">SYNCING...</p>
+            <div class="bg-white/5 p-4 mb-6 border border-gray-800">
+                <p class="text-[10px] text-gray-400 mb-1">FINAL SCORE</p>
+                <p id="finalScore" class="text-4xl font-mono font-bold text-white">0</p>
+            </div>
+            <button id="restartBtn" class="btn-neon w-full py-3 text-sm">REBOOT SYSTEM</button>
+        </div>
+    </div>
+
+    <script>
+        // Google Apps Script 連結 (請確保已部署)
+        const GAS_URL = 'https://script.google.com/macros/s/AKfycbyBJwuRdzJvw6b10megAgsYxhOwTLbmWizsbjWMx7LjL7PhY3QhZla7wRJzIbYxjaJc/exec'; 
+
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        let currentUser = "";
+        let currentHiScore = 0;
+        let gameActive = false;
+        let score = 0;
+        let health = 100;
+        let level = 1;
+        let lastTime = 0;
+        let bulletTimer = 0;
+        let enemyTimer = 0;
+
+        const playerState = { hasShield: false, slowMotionUntil: 0 };
+        const player = { x: 0, y: 0, radius: 10, targetX: 0, targetY: 0 };
+        const safeZone = { x: 0, y: 0, radius: 0, maxRadius: 0, minRadius: 45 };
+        
+        let bullets = [];
+        let items = [];
+        let enemies = [];
+
+        async function apiCall(data) {
+            try {
+                const response = await fetch(GAS_URL, { method: 'POST', body: JSON.stringify(data) });
+                return await response.json();
+            } catch (e) {
+                console.error("API Error:", e);
+                return { status: 'error', message: '無法連線至雲端伺服器' };
+            }
+        }
+
+        // 登入按鈕
+        document.getElementById('doLogin').onclick = async function() {
+            const user = document.getElementById('loginUser').value;
+            const pass = document.getElementById('loginPass').value;
+            const msg = document.getElementById('loginMsg');
+            if(!user || !pass) return msg.innerText = "請填寫身分碼與金鑰";
+            
+            this.disabled = true;
+            this.innerHTML = "驗證中...";
+            
+            const res = await apiCall({ action: 'login', username: user, password: pass });
+            if(res.status === 'success') {
+                currentUser = user;
+                currentHiScore = res.highscore || 0;
+                document.getElementById('displayUsername').innerText = user;
+                document.getElementById('hiScoreVal').innerText = Math.floor(currentHiScore);
+                startGame();
+            } else {
+                msg.innerText = res.message;
+                this.disabled = false;
+                this.innerHTML = "登入系統";
+            }
+        };
+
+        // 註冊按鈕
+        document.getElementById('doRegister').onclick = async function() {
+            const user = document.getElementById('loginUser').value;
+            const pass = document.getElementById('loginPass').value;
+            const msg = document.getElementById('loginMsg');
+            if(!user || !pass) return msg.innerText = "註冊請填寫完整資訊";
+            
+            this.disabled = true;
+            this.innerHTML = "處理中...";
+            
+            const res = await apiCall({ action: 'register', username: user, password: pass });
+            msg.innerText = res.message;
+            if(res.status === 'success') msg.className = "text-green-400 text-[11px] text-center min-h-[1.5rem] font-bold";
+            
+            this.disabled = false;
+            this.innerHTML = "註冊帳號";
+        };
+
+        class Bullet {
+            constructor(x, y, angle, speed) { this.x = x; this.y = y; this.angle = angle; this.speed = speed; }
+            update() { 
+                const s = Date.now() < playerState.slowMotionUntil ? this.speed * 0.4 : this.speed;
+                this.x += Math.cos(this.angle) * s; this.y += Math.sin(this.angle) * s; 
+            }
+            draw() {
+                ctx.beginPath(); ctx.arc(this.x, this.y, 4, 0, Math.PI * 2);
+                ctx.fillStyle = Date.now() < playerState.slowMotionUntil ? '#a855f7' : '#f87171'; ctx.fill();
+            }
+        }
+
+        class Enemy {
+            constructor(type) {
+                this.type = type; this.radius = 12; this.timer = 0; this.lifeTimer = 0;
+                const side = Math.floor(Math.random() * 4);
+                if(side === 0) { this.x = Math.random() * canvas.width; this.y = -20; }
+                else if(side === 1) { this.x = canvas.width + 20; this.y = Math.random() * canvas.height; }
+                else if(side === 2) { this.x = Math.random() * canvas.width; this.y = canvas.height + 20; }
+                else { this.x = -20; this.y = Math.random() * canvas.height; }
+            }
+            update(dt) {
+                this.timer += dt;
+                const speedMult = Date.now() < playerState.slowMotionUntil ? 0.4 : 1.0;
+                if(this.type === 'CHASER') {
+                    this.lifeTimer += dt;
+                    if(this.lifeTimer > 8) return true;
+                    const angle = Math.atan2(player.y - this.y, player.x - this.x);
+                    this.x += Math.cos(angle) * 1.8 * speedMult; this.y += Math.sin(angle) * 1.8 * speedMult;
+                } else if(this.type === 'THIEF') {
+                    let target = items.find(i => i.type === 'COIN');
+                    if(target) {
+                        const angle = Math.atan2(target.y - this.y, target.x - this.x);
+                        this.x += Math.cos(angle) * 2.8 * speedMult; this.y += Math.sin(angle) * 2.8 * speedMult;
+                        if(Math.hypot(this.x - target.x, this.y - target.y) < 15) { 
+                            items.splice(items.indexOf(target), 1); 
+                            return true; 
+                        }
+                    } else { 
+                        this.x += Math.cos(this.timer) * 1.5 * speedMult; 
+                        this.y += Math.sin(this.timer) * 0.5 * speedMult;
+                    }
+                }
+                return false;
+            }
+            draw() {
+                ctx.fillStyle = this.type === 'CHASER' ? '#f87171' : '#ffffff';
+                ctx.beginPath();
+                if(this.type === 'CHASER') {
+                    ctx.moveTo(this.x, this.y - 12); 
+                    ctx.lineTo(this.x + 10, this.y + 10); 
+                    ctx.lineTo(this.x - 10, this.y + 10); 
+                } else {
+                    ctx.moveTo(this.x, this.y - 12); 
+                    ctx.lineTo(this.x + 12, this.y); 
+                    ctx.lineTo(this.x, this.y + 12); 
+                    ctx.lineTo(this.x - 12, this.y); 
+                }
+                ctx.fill();
+            }
+        }
+
+        class Item {
+            constructor() {
+                const angle = Math.random() * Math.PI * 2; const r = Math.random() * (safeZone.radius * 0.8);
+                this.x = safeZone.x + Math.cos(angle) * r; this.y = safeZone.y + Math.sin(angle) * r;
+                const rand = Math.random();
+                if(rand < 0.6) this.type = 'COIN';
+                else if(rand < 0.8) this.type = 'HP';
+                else if(rand < 0.9) this.type = 'SHIELD';
+                else this.type = 'SLOW';
+            }
+            draw() {
+                const colors = { COIN: '#fbbf24', HP: '#22d3ee', SHIELD: '#00f2ff', SLOW: '#a855f7' };
+                ctx.fillStyle = colors[this.type]; ctx.beginPath(); ctx.arc(this.x, this.y, 8, 0, Math.PI * 2); ctx.fill();
+            }
+        }
+
+        function startGame() {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('gameScreen').style.display = 'block';
+            init(); gameActive = true; lastTime = performance.now();
+            requestAnimationFrame(gameLoop);
+        }
+
+        function init() {
+            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+            safeZone.x = canvas.width / 2; safeZone.y = canvas.height / 2;
+            safeZone.maxRadius = (Math.min(canvas.width, canvas.height) / 2) - 30;
+            safeZone.radius = safeZone.maxRadius;
+            player.x = safeZone.x; player.y = safeZone.y; player.targetX = player.x; player.targetY = player.y;
+        }
+
+        function gameLoop(time) {
+            if(!gameActive) return;
+            const dt = (time - lastTime) / 1000; lastTime = time;
+            ctx.fillStyle = '#050505'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // 安全區
+            safeZone.radius -= (6 + level * 1.8) * dt;
+            if(safeZone.radius < safeZone.minRadius) safeZone.radius = safeZone.minRadius;
+            ctx.beginPath(); ctx.arc(safeZone.x, safeZone.y, safeZone.radius, 0, Math.PI * 2);
+            ctx.strokeStyle = '#00f2ff'; ctx.lineWidth = 2; ctx.stroke();
+
+            // 玩家
+            player.x += (player.targetX - player.x) * 0.15; player.y += (player.targetY - player.y) * 0.15;
+            const isOutside = Math.hypot(player.x - safeZone.x, player.y - safeZone.y) + player.radius > safeZone.radius;
+            if(isOutside) health -= 18 * dt;
+
+            if(playerState.hasShield) { 
+                ctx.beginPath(); ctx.arc(player.x, player.y, player.radius+6, 0, Math.PI*2); 
+                ctx.strokeStyle='#00f2ff'; ctx.lineWidth=2; ctx.stroke(); 
+            }
+            ctx.fillStyle = isOutside ? '#ff0000' : '#ff00ff'; ctx.beginPath(); ctx.arc(player.x, player.y, player.radius, 0, Math.PI * 2); ctx.fill();
+
+            // 生成邏輯
+            bulletTimer += dt;
+            if(bulletTimer > 1.3 / (1 + level * 0.15)) {
+                const a = Math.random() * Math.PI * 2;
+                bullets.push(new Bullet(safeZone.x + Math.cos(a) * canvas.width, safeZone.y + Math.sin(a) * canvas.height, Math.atan2(player.y - (safeZone.y + Math.sin(a) * canvas.height), player.x - (safeZone.x + Math.cos(a) * canvas.width)), 2.8 + level * 0.45));
+                bulletTimer = 0;
+            }
+
+            enemyTimer += dt;
+            if(enemyTimer > 3.5 / (1 + level * 0.2)) {
+                const thiefCount = enemies.filter(e => e.type === 'THIEF').length;
+                let type = (Math.random() > 0.5 && thiefCount < 5) ? 'THIEF' : 'CHASER';
+                enemies.push(new Enemy(type));
+                enemyTimer = 0;
+            }
+
+            if(Math.random() < 0.015 && items.length < 5) items.push(new Item());
+
+            // 更新子彈
+            bullets.forEach((b, i) => { 
+                b.update(); b.draw(); 
+                if(Math.hypot(b.x - player.x, b.y - player.y) < player.radius + 5) { 
+                    if(playerState.hasShield) playerState.hasShield = false; 
+                    else health -= 10; 
+                    bullets.splice(i, 1); 
+                } 
+            });
+            
+            // 更新敵人
+            enemies.forEach((e, i) => { 
+                if(e.update(dt)) enemies.splice(i, 1); 
+                else { 
+                    e.draw(); 
+                    if(Math.hypot(e.x - player.x, e.y - player.y) < player.radius + 12) { 
+                        if(playerState.hasShield) playerState.hasShield = false; 
+                        else health -= 20; 
+                        enemies.splice(i, 1); 
+                    } 
+                } 
+            });
+
+            // 更新道具
+            items.forEach((it, i) => { 
+                it.draw(); 
+                if(Math.hypot(it.x - player.x, it.y - player.y) < player.radius + 15) { 
+                    if(it.type === 'COIN') { score += 500; safeZone.radius = Math.min(safeZone.maxRadius, safeZone.radius + 60); } 
+                    else if(it.type === 'HP') health = Math.min(100, health + 25);
+                    else if(it.type === 'SHIELD') playerState.hasShield = true;
+                    else if(it.type === 'SLOW') playerState.slowMotionUntil = Date.now() + 6000;
+                    items.splice(i, 1); 
+                }
+            });
+
+            // 等級提升
+            const newLevel = Math.floor(score / 2500) + 1;
+            if(newLevel > level) { 
+                level = newLevel; 
+                document.getElementById('levelUpText').style.opacity = 1; 
+                setTimeout(()=>document.getElementById('levelUpText').style.opacity=0, 1000); 
+            }
+
+            score += 0.3;
+            document.getElementById('scoreVal').innerText = Math.floor(score);
+            document.getElementById('healthVal').innerText = Math.max(0, Math.ceil(health));
+            document.getElementById('hpBar').style.width = `${health}%`;
+            document.getElementById('levelVal').innerText = level;
+            document.getElementById('shieldIndicator').classList.toggle('hidden', !playerState.hasShield);
+
+            const container = document.getElementById('effectContainer');
+            container.innerHTML = Date.now() < playerState.slowMotionUntil ? '<div class="px-2 py-0.5 bg-purple-500/50 text-[9px] border border-purple-400">SLOW-MO</div>' : '';
+
+            if(health <= 0) endGame(); else requestAnimationFrame(gameLoop);
+        }
+
+        async function endGame() {
+            gameActive = false;
+            document.getElementById('gameOver').classList.remove('hidden');
+            document.getElementById('finalScore').innerText = Math.floor(score);
+            
+            if(score > currentHiScore) document.getElementById('newRecordBadge').classList.remove('hidden');
+
+            const statusEl = document.getElementById('saveStatus');
+            const res = await apiCall({ action: 'saveScore', username: currentUser, score: Math.floor(score) });
+            if(res.status === 'success') {
+                statusEl.innerText = res.updated ? "數據上傳成功！新紀錄" : "數據已同步至雲端";
+                if(res.updated) {
+                    currentHiScore = score;
+                    document.getElementById('hiScoreVal').innerText = Math.floor(score);
+                }
+            } else { statusEl.innerText = "連線失敗，數據未保存"; }
+        }
+
+        document.getElementById('restartBtn').onclick = () => {
+            health = 100; score = 0; level = 1; bullets = []; enemies = []; items = [];
+            playerState.hasShield = false; playerState.slowMotionUntil = 0;
+            document.getElementById('gameOver').classList.add('hidden');
+            document.getElementById('newRecordBadge').classList.add('hidden');
+            requestAnimationFrame(gameLoop);
+        };
+
+        window.onmousemove = e => { player.targetX = e.clientX; player.targetY = e.clientY; };
+        window.addEventListener('touchmove', e => { e.preventDefault(); player.targetX = e.touches[0].clientX; player.targetY = e.touches[0].clientY; }, { passive: false });
+        window.onresize = init;
+    </script>
 </body>
 </html>
